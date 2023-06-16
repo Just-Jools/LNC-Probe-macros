@@ -1,0 +1,91 @@
+%@MACRO ;//O9722(**Y*DIAM*)
+WAIT();
+M98P9723;
+#1:=#1342;
+#2:=#1343;
+IF(@[@111+150]<>(2*4*100153))THEN
+   GOTO99;
+END_IF;
+
+
+IF(#26=#0)THEN 
+   GOTO15;
+END_IF;
+#30:=@[@111+1];
+IF(#18>0)THEN 
+   GOTO1;
+END_IF;
+#30:=-@[@111+1];
+N1;
+#32=#7/2+#30+#18;
+G31Y(#1-#32)F@119;
+WAIT();
+IF(#1608=@99)THEN
+   IF(ABS(#1362-(#1-#32))>=@123)THEN
+      GOTO3;
+   END_IF;
+ELSE
+   IF(ABS(#1342-(#1-#32))>=@123)THEN
+      GOTO3;
+   END_IF;
+END_IF;
+G31Z#26F(@119*.6);
+WAIT();
+IF(#1608=@99)THEN
+   IF(ABS(#1363-#26)>=@123)THEN
+      GOTO3;
+   END_IF;
+ELSE
+   IF(ABS(#1343-#26)>=@123)THEN
+      GOTO3;
+   END_IF;
+END_IF;   
+N15;
+G65P9726Y(#1-#7/2)Q#17S#19;
+G0Z#2;
+Y#1;
+IF(@149<>0)THEN
+   GOTO4;
+END_IF;
+@128:=@125;
+IF(#26=#0)THEN
+   GOTO2;
+END_IF;
+G31Y(#1+#32)F@119;
+WAIT();
+IF(#1608=@99)THEN
+   IF(ABS(#1362-(#1+#32))>=@123)THEN
+      GOTO3;
+   END_IF;
+ELSE
+   IF(ABS(#1342-(#1+#32))>=@123)THEN
+      GOTO3;
+   END_IF;
+END_IF;   
+G31Z#26F(@119*.6);
+WAIT();
+IF(#1608=@99)THEN
+   IF(ABS(#1363-#26)>=@123)THEN
+      GOTO3;
+   END_IF;
+ELSE
+   IF(ABS(#1343-#26)>=@123)THEN
+      GOTO3;
+   END_IF;
+END_IF;   
+N2;
+G65P9726Y(#1+#7/2)Q#17S#19;
+G0Z#2;
+IF(@149<>0)THEN
+   GOTO4;
+END_IF;
+@128=(@128+@125)/2;
+GOTO4;
+N3;
+@149:=1;
+N4;
+G0Z#2;
+G0Y#1;
+N99;
+WAIT();
+M99;

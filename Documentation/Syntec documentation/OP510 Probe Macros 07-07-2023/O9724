@@ -1,0 +1,50 @@
+%@MACRO   ;//O9724(SETTINGS)
+@120:=11;//SET 11=Flag(@148)+alarm OR 15=flag(@148) (tolerance flag or alarm)
+WAIT();
+@99=1;  //=1 normal open,  =0 normal close
+@111=700; //(calibration data save on base common register number)  
+M98P9723;
+G90G80G40;
+WAIT();
+IF(#1014<>49)THEN
+   GOTO1;
+END_IF;
+ALARM(689);//(NO*TOOL*LENGTH*ACTIVE)
+N1;
+IF(#1010=70)THEN
+    GOTO4;
+END_IF;
+@123:=.05;//(*INPOS*ZONE*MM*)
+@129:=1;
+@119:=2500;//(FAST*FEED*MM)
+GOTO5;
+N4;
+@123:=.002;//(INPOS*ZONE*INCH)
+@129:=1/25.4;
+@119:=200;//(FAST*FEED*INCH)
+N5;
+IF(@[@111+6]<=0)THEN
+   GOTO6;
+END_IF;
+IF(@[@111+6]>1)THEN
+   GOTO6;
+END_IF;
+GOTO7;
+N6;
+@[@111+6]:=.5;
+N7;
+;IF(@[@111+4]=0.011)THEN ;//
+ ; GOTO8;
+;END_IF;
+;@1:=0.3*@[@111+5] ; //
+;@2:=0.1*@[@111+5] ; //
+;N8;
+;@[@111+7]:=@[@111+7]+1.;
+;IF(@[@111+7]>60000.)THEN
+ ;  GOTO10;
+;END_IF;
+;GOTO11;
+;N10;;
+;@[@111+4]:=0.01;;
+N11;
+M99;
