@@ -1,0 +1,90 @@
+%@MACRO  ;//O9732[REN*OFFSET*TYPE]
+WAIT[0,0];//
+#27 = 10000;//[L*WEAR*10000]
+#28 = 11000;//[L*G-W**11000]
+#29 = 12000;//[R*WEAR*12000]
+#30 = 13000;//[R*GEOM*13000]
+
+
+
+IF[#23==1]; 
+   GOTO11;
+END_IF;
+N1;//[FS6*TYPE*OFFSET]
+N4;//[TOOL*OFFSET*C]
+IF[#26==#0];
+  GOTO5;
+END_IF;
+#[#27+#20] = #[#27+#20]-#3;//[LENGTH-WEAR]
+GOTO30;
+N5;
+#[#29+#20] = #[#29+#20]-#3;//[RAD-WEAR]
+@118 = #[#29+#20]+#[#30+#20];
+GOTO30;
+N11;//[W*OFFSETS]
+IF[#19==#0 || #19<0];
+   GOTO30;
+END_IF;
+;//[FS6]
+#4 = R_MACH_COOR[0,1]-R_ABS_COOR[0,1]-R_G53G59_COOR[0,53,1];
+#5 = R_MACH_COOR[0,2]-R_ABS_COOR[0,2]-R_G53G59_COOR[0,53,2];
+#6 = R_MACH_COOR[0,3]-R_ABS_COOR[0,3]-R_G53G59_COOR[0,53,3];
+@800=#4
+@801=#5
+@802=#6
+IF[#19 > 6 && #19 <= 100];
+  ALARM["S_Ö¸¶¨´íÎó"];
+ELSEIF [#19 > 100];
+  GOTO14;
+END_IF;
+;//[EXTL]
+IF[@140==#0];
+   GOTO12;
+END_IF;
+#32 = #4+@135;//External X
+W_G53G59_COOR[0,[53+#19],1,#32];
+N12;
+IF[@141==#0];
+   GOTO13;
+END_IF;
+#33 = #5+@136;//External Y
+W_G53G59_COOR[0,[53+#19],2,#33];
+N13;
+IF[#26==#0];
+   GOTO30;
+END_IF;
+IF[@142==#0];
+   GOTO30;
+END_IF;
+#34 = #6+@137-@116;//External Z
+W_G53G59_COOR[0,[53+#19],3,#34];
+GOTO30;
+N14;//[W*OFF]
+IF[@140==#0];
+   GOTO15;
+END_IF;
+W_G54EXP_COOR[0,[#19-100],1,[#4+@135]];//W-offs X
+N15;
+IF[@141==#0];
+   GOTO16;
+END_IF;
+W_G54EXP_COOR[0,[#19-100],2,[#5+@136]];//W-offs Y
+N16;
+IF[#26==#0];
+   GOTO30;
+END_IF;
+IF[@142==#0];
+   GOTO30;
+END_IF;
+W_G54EXP_COOR[0,[#19-100],3,[#6+@137-@116]];//W-offs Z
+GOTO30;
+N30;
+;IF[@[@111+7]==0.001] ;//@[@111+7] is a key code
+  ;GOTO31;
+;END_IF;
+;@1 = 0.1*@[@111+5] ;// 
+;@2 = 0.3*@[@111+5] ;// 
+N31;
+WAIT[0,0];
+M99;
+

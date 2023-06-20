@@ -1,0 +1,69 @@
+;%@MACRO   ;//O9727[REN*VECTOR*OD-ID]
+WAIT[0,0];
+M10723;
+#3 = R_ABS_COOR[0,3];
+#5 = R_ABS_COOR[0,1];
+#6 = R_ABS_COOR[0,2];
+
+
+
+IF[#18!=#0];
+   GOTO1;
+END_IF;
+#18 = 5*@129;
+N1;
+#29 = #4;
+IF[#26==#0];
+   GOTO2;
+END_IF;
+#19 = -@[@111+1];
+IF[#18<0];
+   GOTO15;
+END_IF;
+#19 = @[@111+1];
+N15;
+#30 = #5+[[[#4/2]+#19+#18]*COS[#1]];
+#31 = #6+[[[#4/2]+#19+#18]*SIN[#1]];
+G31P2X#30Y#31F@119;
+WAIT[0,0];
+IF[R_SKIP[0,1] == 1];
+   IF[ABS[R_SKIP[0,101]-#30]>@123];
+      GOTO3;
+   END_IF;
+   IF[ABS[R_SKIP[0,102]-#31]>@123];
+      GOTO3;
+   END_IF;
+ELSE
+   IF[ABS[R_ABS_COOR[0,1]-#30]>@123];
+      GOTO3;
+   END_IF;
+   IF[ABS[R_ABS_COOR[0,2]-#31]>@123];
+      GOTO3;
+   END_IF;
+END_IF;
+G31P2Z[#26]F[@119*.6];
+WAIT[0,0];;
+IF[R_SKIP[0,1] == 1];
+   IF[ABS[R_SKIP[0,103]-#26]>@123];
+      GOTO3;
+   END_IF;
+ELSE
+   IF[ABS[R_ABS_COOR[0,3]-#26]>@123];
+      GOTO3;
+   END_IF;
+END_IF;
+#29=ABS[#18*2];
+IF[#18<0];
+   GOTO2;
+END_IF;
+#1=#1+180;
+N2;
+M10726A#1Q#17D#29S#19;
+GOTO4;
+N3;
+@149=1;
+N4;
+G1Z#3F@119;
+G1X#5Y#6;
+WAIT[0,0];;
+M99;

@@ -1,0 +1,132 @@
+;%@MACRO   ;//O9721[REN*X*DIAM]
+;//[40121241-0A]
+M10723;
+WAIT[0,0];
+
+#1 = R_ABS_COOR[0,1];			读取当前X轴绝对坐标
+#2 = R_ABS_COOR[0,3];			读取当前Z轴绝对坐标
+IF [#26 == #0];
+  GOTO 15;
+END_IF;
+
+IF[@[@111+150]!=[2*4*100153]];
+   GOTO99;
+END_IF;
+#30 = @[@111];
+IF[#18>0];
+   GOTO1;
+END_IF;
+
+#30 = -@[@111];
+
+N1;
+#32 = #4/2+#30+#18;
+G31P2X[#1-#32]F@119;
+WAIT[0,0];
+IF[R_SKIP[0,1] == 1];
+   IF[ABS[R_SKIP[0,101]-[#1-#32]]>=@123];
+      GOTO3;
+   END_IF;
+ELSE
+   IF[ABS[R_ABS_COOR[0,1]-[#1-#32]]>=@123];
+      GOTO3;
+   END_IF;
+END_IF;
+
+G31P2Z#26F[@119*0.6];
+WAIT[0,0];
+IF[R_SKIP[0,1] == 1];
+   IF[ABS[R_SKIP[0,103]-#26]>=@123];
+      GOTO3;
+   END_IF;
+ELSE
+   IF[ABS[R_ABS_COOR[0,3]-#26]>=@123];
+      GOTO3;
+   END_IF;
+END_IF;
+N15;
+M10726X[#1-#4/2]Q#17S#19;
+G0Z#2;
+X#1;
+IF[@149!=0];
+   GOTO4;
+END_IF;
+@127 = @124;
+IF[#26==#0];
+   GOTO2;
+END_IF;
+G31P2X[#1+#32]F@119;
+WAIT[0,0];
+IF[R_SKIP[0,1] == 1];
+   IF[ABS[R_SKIP[0,101]-[#1+#32]]>=@123];
+      GOTO3;
+   END_IF;
+ELSE
+   IF[ABS[R_ABS_COOR[0,1]-[#1+#32]]>=@123];
+      GOTO3;
+   END_IF;
+END_IF;
+G31P2Z#26F[@119*0.6];
+WAIT[0,0];
+IF[R_SKIP[0,1] == 1];
+   IF[ABS[R_SKIP[0,103]-#26]>=@123];
+      GOTO3;
+   END_IF;
+ELSE
+   IF[ABS[R_ABS_COOR[0,3]-#26]>=@123];
+      GOTO3;
+   END_IF;
+END_IF;
+N2;
+M10726X[#1+#4/2]Q#17S#19;
+G0Z#2;
+IF[@149!=0];
+   GOTO4;
+END_IF;
+@127 = [@127+@124]/2;
+GOTO4;
+N3;
+@149 = 1;
+N4;
+G0Z#2;
+G0X#1;
+N99;
+WAIT[0,0];
+M99;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

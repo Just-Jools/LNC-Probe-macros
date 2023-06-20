@@ -1,0 +1,74 @@
+// I think this is a macro that sets the general setting of the probe. So things like the speed it searches at, tool length offsets etc
+
+
+
+;%@MACRO   ;						//O9724[SETTINGS]
+
+@120 = 11;						//SET 11=Flag[@148]+alarm OR 15=flag[@148] [tolerance flag or alarm]
+WAIT[0,0];
+
+@99=1;  						//=1 normal open,  =0 normal close
+@111=700; 						//[calibration data save on base common register number]  
+
+M10723;
+
+G90G80G40;
+WAIT[0,0];
+
+IF[R_G_GROUP[0,8]!=49]; 				//(R_G_GROUP(path,group) This says 'read G-code group8' and if that doesn't equal 49 then goto line 1. Where do you find G-code group 8 and what does it reference?
+   GOTO1;
+END_IF;
+ALARM["无有效刀具长度"];//[NO*TOOL*LENGTH*ACTIVE]	//in conjunction with the above if it is equal to 49 then error out.
+
+
+N1;
+@10 = R_G_GROUP[0,6];			公英制读取	// I think this is saying to use metric or imperial depending what the machine is in. 
+IF[@10 == 20];公英制判断
+    GOTO4;
+END_IF;
+
+@123 = 0.05;//[*INPOS*ZONE*MM*]				//Not sure what this is
+@129 = 1;						// this gets referenced in M10726 and sets the speed for the slow seek//
+@119 = 1500;//[FAST*FEED*MM]				// I think this sets the feed rate for seeking a touch off
+GOTO5;
+
+N4;
+@123 = 0.002;//[INPOS*ZONE*INCH]
+@129 = 1/25.4;
+@119 = 20;//[FAST*FEED*INCH]
+
+N5;
+IF[@[@111+6]<=0];					//Referencing something about calibration. See 5th line of code for 1st reference to @111
+   GOTO6;
+END_IF;
+
+IF[@[@111+6]>1];
+   GOTO6;
+END_IF;
+GOTO7;
+
+N6;
+@[@111+6] = 0.2;
+
+N7;
+;IF[@[@111+4]==0.011]; ;				//
+  ;GOTO8;
+;END_IF;
+
+;@1 = 0.3*@[@111+5] ; 					//
+;@2 = 0.1*@[@111+5] ; 					//
+
+;N8;
+;@[@111+7] = @[@111+7]+1.;
+;IF[@[@111+7]>60000.];
+   ;GOTO10;
+;END_IF;
+
+GOTO11;
+
+;N10;;
+;@[@111+4] = 0.01;;
+
+N11;
+
+M99;

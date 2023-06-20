@@ -1,0 +1,224 @@
+;%@MACRO ;//O9726[REN*BASIC*MEASURE*-2T]
+
+WAIT[0,0];
+
+IF[#17 != #0];      //#17 is set below (line 9) as 5 times the value of @129 (1) so equals 5. I think this is just                      an alarm that say's if no speed rate set fail//
+   GOTO1;
+END_IF;
+
+#17=5*@129;         //@129 is set at 1.0 on line 31 of M10724. This is used for the slow speed of the second probe move// 
+
+
+
+
+
+//@111 is calibration data set in M1074 line 11 (700) not sure why it has to be                                     not equal to (801224) though I think the number 100153 is not a numerical value                                     or else why have a sum there and not just the end numerical value//
+N1;
+IF[@[@111+150]!=[2*4*100153]];  
+M00
+   GOTO99;
+END_IF;
+
+
+
+
+//again this is something to do with calibration data. so maybe saying if there is                               incorrect calbration data then end the program. But not sure how they arrived at this equation or value//
+IF[@[@111+151]!=[10000.-1.]];   
+M00
+   GOTO99;
+END_IF;
+
+
+
+N11;
+;@[@111+5] = @[@111+5]+0.03;
+;IF[@[@111+5]<=1.1];
+ ; GOTO12;
+;END_IF;
+;@[@111+5] = 0;
+N12;
+IF[#4==#0];
+   GOTO2;
+END_IF;
+
+
+;//[**A*D*INPUT*XY*PLANE*ONLY]
+#24 = R_ABS_COOR[0,1]+[[#4/2]*COS[#1]];
+#25 = R_ABS_COOR[0,2]+[[#4/2]*SIN[#1]];
+#26 = R_ABS_COOR[0,3]
+N2;
+#31 = 8*@[@111+6]*@129 ;//[**BACK*OFF]
+@149=0;
+#1 = R_ABS_COOR[0,1]
+IF[#24!=#0]; 
+   GOTO3;
+END_IF;
+#24 = #1;
+
+
+N3;
+#2 = R_ABS_COOR[0,2]
+IF[#25!=#0];
+   GOTO4;
+END_IF;
+#25 = #2;
+
+
+N4;
+#3 = R_ABS_COOR[0,3]
+IF[#26!=#0];
+   GOTO5;
+END_IF;
+#26 = #3;
+
+
+
+N5;
+;//[**CALC*NRML*DIR*VEC]
+#8  = #24-#1;
+#12 = #25-#2;
+#13 = #26-#3;
+#10 = SQRT[[#8*#8]+[#12*#12]+[#13*#13]];
+IF[#10==0];
+  GOTO6;//[**NO*MOVE]
+END_IF;
+
+
+
+#8 = #8/#10;
+#12 = #12/#10;
+#13 = #13/#10;
+
+
+
+
+;//[*CALC*TARGET*POS.]
+#14 = #24+[#17*#8];
+#15 = #25+[#17*#12];
+#16 = #26+[#17*#13];
+
+
+;//#1504 = #1504 || 2;// [feedrate disable]
+
+
+
+G31P2X#14Y#15Z#16F[@119*0.6];
+WAIT[0,0];
+;//[**P.FAIL]
+IF[R_SKIP[0,1] == 1];
+    #4 = R_SKIP[0,101]-#14;
+    #5 = R_SKIP[0,102]-#15;
+    #6 = R_SKIP[0,103]-#16;
+    #29=SQRT[[#4*#4]+[#5*#5]+[#6*#6]];
+    IF[#29<@123];
+       GOTO7;//[**P*F]
+    END_IF;
+    ;//[**P.OPEN]
+    #4 = R_SKIP[0,101]-#1;
+    #5 = R_SKIP[0,102]-#2;
+    #6 = R_SKIP[0,103]-#3;
+    #29 = SQRT[[#4*#4]+[#5*#5]+[#6*#6]];
+    IF[#29<@123];
+       GOTO6;//[**P*O]
+    END_IF;
+    ;//[**CALC*BACK*OFF*POS.]
+    #21 = R_SKIP[0,101]-[#31*#8];
+    #22 = R_SKIP[0,102]-[#31*#12];
+    #23 = R_SKIP[0,103]-[#31*#13];
+ELSE
+    #4 = R_ABS_COOR[0,1]-#14;
+    #5 = R_ABS_COOR[0,2]-#15;
+    #6 = R_ABS_COOR[0,3]-#16;
+    #29=SQRT[[#4*#4]+[#5*#5]+[#6*#6]];
+    IF[#29<@123];
+       GOTO7;//[**P*F]
+    END_IF;
+    ;//[**P.OPEN]
+    #4 = R_ABS_COOR[0,1]-#1;
+    #5 = R_ABS_COOR[0,2]-#2;
+    #6 = R_ABS_COOR[0,3]-#3;
+    #29 = SQRT[[#4*#4]+[#5*#5]+[#6*#6]];
+    IF[#29<@123];
+       GOTO6;//[**P*O]
+    END_IF;
+    ;//[**CALC*BACK*OFF*POS.]
+    #21 = R_ABS_COOR[0,1]-[#31*#8];
+    #22 = R_ABS_COOR[0,2]-[#31*#12];
+    #23 = R_ABS_COOR[0,3]-[#31*#13];
+END_IF;   
+
+
+
+
+
+G09G01X#21Y#22Z#23F@119;//[**BACK*OFF]
+G04P300;//[DWELL*MP700]
+G31P2X#14Y#15Z#16F[30*@129];//[**MEASURE]
+WAIT[0,0];
+;#1504 = #1504 AND 13;// [REST #1504.1]
+;//G01X#1Y#2Z#3F@119;
+;//[**P*F*CHCK]
+IF[R_SKIP[0,1] == 1];
+   #4 = R_SKIP[0,101]-#14;
+   #5 = R_SKIP[0,102]-#15;
+   #6 = R_SKIP[0,103]-#16;
+   #29 = SQRT[[#4*#4]+[#5*#5]+[#6*#6]];
+   IF[#29<@123];
+      GOTO7;//[**P*F]
+   END_IF;
+   ;//[**P*O*CHCK]
+   #4 = R_SKIP[0,101]-#21;
+   #5 = R_SKIP[0,102]-#22;
+   #6 = R_SKIP[0,103]-#23;
+   #29 = SQRT[[#4*#4]+[#5*#5]+[#6*#6]];
+   IF[#29<@123];
+      GOTO6;//[**P*O]
+   END_IF;
+   @149 = 0;//[**NRML*MEAS]
+   @124 = R_SKIP[0,101];
+   @125 = R_SKIP[0,102];
+   @126 = R_SKIP[0,103];
+   IF[#29>@123];
+      GOTO8;
+   END_IF;
+ELSE
+   #4 = R_ABS_COOR[0,1]-#14;
+   #5 = R_ABS_COOR[0,2]-#15;
+   #6 = R_ABS_COOR[0,3]-#16;
+   #29 = SQRT[[#4*#4]+[#5*#5]+[#6*#6]];
+   IF[#29<@123];
+      GOTO7;//[**P*F]
+   END_IF;
+   ;//[**P*O*CHCK]
+   #4 = R_ABS_COOR[0,1]-#21;
+   #5 = R_ABS_COOR[0,2]-#22;
+   #6 = R_ABS_COOR[0,3]-#23;
+   #29 = SQRT[[#4*#4]+[#5*#5]+[#6*#6]];
+   IF[#29<@123];
+      GOTO6;//[**P*O]
+   END_IF;
+   @149 = 0;//[**NRML*MEAS]
+   @124 = R_ABS_COOR[0,1]
+   @125 = R_ABS_COOR[0,2]
+   @126 = R_ABS_COOR[0,3]
+   IF[#29>@123];
+      GOTO8;
+   END_IF;
+END_IF;
+N6;
+@149 = 1;
+@124 = #1;
+@125 = #2;
+@126 = #3;
+GOTO8;
+N7;
+@149 = 2;
+@124 = #14;
+@125 = #15;
+@126 = #16;
+N8;
+G01X#1Y#2Z#3F@119;
+N99;
+WAIT[0,0];
+M99;
+
