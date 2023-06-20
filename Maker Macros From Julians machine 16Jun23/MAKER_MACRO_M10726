@@ -12,7 +12,9 @@ END_IF;
 
 
 
-//@111 is calibration data set in M1074 line 11 (700) not sure why it has to be                                     not equal to (801224) though I think the number 100153 is not a numerical value                                     or else why have a sum there and not just the end numerical value//
+//@111 is calibration data set in M1074 line 11 (700)//
+//so they are specifying variable @851 here//
+// not sure what the other part of the equation represents//
 N1;
 IF[@[@111+150]!=[2*4*100153]];  
 M00
@@ -23,19 +25,23 @@ END_IF;
 
 
 //again this is something to do with calibration data. so maybe saying if there is                               incorrect calbration data then end the program. But not sure how they arrived at this equation or value//
+//as @111=700 they are saying specifying variable @851//
 IF[@[@111+151]!=[10000.-1.]];   
 M00
    GOTO99;
 END_IF;
 
 
-
+//using calibration data but specifying @705. Think its resetting the value of some calibration data to .03 larger than it was at the start of the line//
+//then saying if that new value is less than or equal to 1.1 goto 12//
 N11;
 ;@[@111+5] = @[@111+5]+0.03;
 ;IF[@[@111+5]<=1.1];
  ; GOTO12;
 ;END_IF;
-;@[@111+5] = 0;
+;@[@111+5] = 0;     //resets variable 705 to zero//
+
+
 N12;
 IF[#4==#0];
    GOTO2;

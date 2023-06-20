@@ -230,7 +230,7 @@ END_IF;
 N9;
 @147 = #30;
 IF [#23 != #0];
-  M10730 H#8 M#13 S#19 T#20 W#23 X#24 Y#25 Z#26;
+  M10730 H#8 M#13 S#19 T#20 W#23 X#24 Y#25 Z#26;                    //no such macro//
 END_IF;
 
 IF [#21 != #0];
@@ -268,7 +268,7 @@ IF [#20 != #0];
     IF [#6 == #0];
       #6 = 1;
     END_IF;
-    M10732 T#20 C[@146*#6] Z#26;
+    M10732 T#20 C[@146*#6] Z#26;            //I think this exports the date to the WCS coordinates//
   END_IF;
 END_IF;
 
