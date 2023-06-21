@@ -3,8 +3,8 @@
 M10723;
 WAIT[0,0];
 
-#1 = R_ABS_COOR[0,1];			读取当前X轴绝对坐标
-#2 = R_ABS_COOR[0,3];			读取当前Z轴绝对坐标
+#1 = R_ABS_COOR[0,1];			Read the absolute coordinates of the current X axis
+#2 = R_ABS_COOR[0,3];			Read the absolute coordinates of the current Z axis
 IF [#26 == #0];
   GOTO 15;
 END_IF;
@@ -93,40 +93,3 @@ G0X#1;
 N99;
 WAIT[0,0];
 M99;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

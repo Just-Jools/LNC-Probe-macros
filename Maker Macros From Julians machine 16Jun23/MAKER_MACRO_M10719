@@ -1,10 +1,10 @@
-;测头启动
+;Probe start
 #190 = R_SYS_INFO[0,1];	
 IF [#190 != 0];
-  GOTO 999;		不是执行程序，返回主程序
+  GOTO 999;		not execute program，return to main program
 END_IF;
-M10100;			测头启动
+M10100;			Probe start
 G04X2.0
-M10019;			主轴定位开启
+M10019;			Spindle positioning on
 N999
 M99;

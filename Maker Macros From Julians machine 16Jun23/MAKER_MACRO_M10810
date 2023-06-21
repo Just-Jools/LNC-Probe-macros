@@ -1,39 +1,57 @@
-;移动保护
+; Mobile Protection
+
 WAIT[0,0];
 #190 = R_SYS_INFO[0,1]; 
 IF [#190 != 0];
-  GOTO 999;				不是执行程序，返回主程序
+  GOTO 999;				Not Execute program，retiurn to main program
 END_IF;
-M10724;				设定宏程序
 
-IF [#6 == #0 && @117 == #0];		未设定F值且@117上次速度为空
-    ALARM["未设定F值"];
-ELSEIF [#6 == #0 && @117 != #0];	未指定F值，读取上次F值
+M10724;				Set Macro Program
+
+IF [#6 == #0 && @117 == #0];		No F value is set and @117 The last speed is empty
+    ALARM["F Value Not Set"];
+ELSEIF [#6 == #0 && @117 != #0];	F value not specified，Read last F value
     #6 = @117;
 END_IF;
 
-@117 = #6;				记录本次速度作为默认速度
-@148 = 0;				作用不明
+//in the above it looks like #6 is a speed variable then//
 
-G31P2 X#24 Y#25 Z#26 F#6;			使用G31P2移动到指定点
+
+@117 = #6;				Record this speed as the default speed
+@148 = 0;				Unknown Role
+
+G31P2 X#24 Y#25 Z#26 F#6;			Use G31P2 Move to specified point
 WAIT[0,0];
-#124 = R_ABS_COOR[0,1];			读取当前X轴绝对坐标
-#125 = R_ABS_COOR[0,2];			读取当前Y轴绝对坐标
-#126 = R_ABS_COOR[0,3];			读取当前Z轴绝对坐标
+#124 = R_ABS_COOR[0,1];			Read the absolute coordinates of the current X axis
+#125 = R_ABS_COOR[0,2];			Read the absolute coordinates of the current Y axis
+#126 = R_ABS_COOR[0,3];			Read the absolute coordinates of the current Z axis
+
+
+
 N4
-IF [#24 == #0];
+IF [#24 == #0];             //if thecommanded X move above is zero then go to the Y move, N5//
    GOTO5;
 END_IF;
+
+//i think this is saying that if the probe is tripped then if the coordinate it's tripped minus the coordinate that it's meant to have got to is bigger than @123 (this is set in M1074 (in*pos*mm)) then goto8 (I think this as 8 seems to be an alarm that says path blocked)
 IF [ABS[#124 - #24] > @123];
     GOTO8;
 END_IF;
+
+
+
 N5
-IF [#25 == #0];
+IF [#25 == #0];     //if the Ycoordinate is zero then do a z move//
    GOTO6;
 END_IF;
+
+//see above as this code is the same as the X moves//
 IF [ABS[#125 - #25] > @123];
     GOTO8;
 END_IF;
+
+
+
 N6
 IF [#26 == #0];
    GOTO7;
@@ -41,14 +59,22 @@ END_IF;
 IF [ABS[#126 - #26] > @123];
     GOTO8;
 END_IF;
+
+
+
+
 N7
 GOTO999
+
+
+
+
 N8
 @148=7
 IF [#13 == 1.0];
   GOTO 999;
 END_IF;
-ALARM ["路径被遮挡警报"];
+ALARM ["Path Blocked Alert"];
 
 N999;
 WAIT[0,0];

@@ -1,9 +1,9 @@
-;测头关闭
+;Probe off
 #190 = R_SYS_INFO[0,1];	
 IF [#190 != 0];
-  GOTO 999;		不是执行程序，返回主程序
+  GOTO 999;		not execute program，return to main program
 END_IF;
-M10101;			测头关闭
-M10020;			主轴定位关闭
+M10101;			Probe off
+M10020;			Spindle positioning off
 N999
 M99;

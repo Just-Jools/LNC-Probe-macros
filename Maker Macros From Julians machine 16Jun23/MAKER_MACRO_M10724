@@ -20,14 +20,16 @@ IF[R_G_GROUP[0,8]!=49]; 				//(R_G_GROUP(path,group) This says 'read G-code grou
 END_IF;
 ALARM["无有效刀具长度"];//[NO*TOOL*LENGTH*ACTIVE]	//in conjunction with the above if it is equal to 49 then error out.
 
-
+// I think this is saying to use metric or imperial depending what the machine is in//
 N1;
-@10 = R_G_GROUP[0,6];			公英制读取	// I think this is saying to use metric or imperial depending what the machine is in. 
-IF[@10 == 20];公英制判断
+@10 = R_G_GROUP[0,6];			Metric and imperial reading	 
+
+
+IF[@10 == 20];                  Metric judgment
     GOTO4;
 END_IF;
 
-@123 = 0.05;//[*INPOS*ZONE*MM*]				//Not sure what this is
+@123 = 0.05;//[*INPOS*ZONE*MM*]			//Used in m10810 to determine if probe is in position//
 @129 = 1;						// this gets referenced in M10726 and sets the speed for the slow seek//
 @119 = 1500;//[FAST*FEED*MM]				// I think this sets the feed rate for seeking a touch off
 GOTO5;

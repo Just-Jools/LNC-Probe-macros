@@ -1,4 +1,4 @@
-;探针XY偏心标定
+;Probe XY eccentric calibration
 WAIT[0,0];
 #190 = R_SYS_INFO[0,1]; 
 IF [#190 != 0];
@@ -44,8 +44,8 @@ M99;
 SUB "ALARM";
   G0 X#10 Y#12;
   IF [@149 == 1];
-    ALARM["量测打开"];
+    ALARM["measurement open"];
   ELSE;
-    ALARM["量测失败"];
+    ALARM["Measurement failed"];
   END_IF;
 END_SUB;

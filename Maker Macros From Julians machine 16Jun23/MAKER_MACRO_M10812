@@ -1,4 +1,4 @@
-;凸台/凹槽测量
+;Boss / groove measurement
 WAIT[0,0];
 #190 = R_SYS_INFO[0,1]; 
 IF [#190 != 0];
@@ -6,9 +6,9 @@ IF [#190 != 0];
 END_IF;
 M10724;
 IF [#24 != #0 && #25 != #0];
-  ALARM["X_Y_引数禁止同时输入"];
+  ALARM["X_Y_Arguments are forbidden to enter at the same time"];
 ELSEIF [#24 == #0 && #25 == #0];
-  ALARM["X_Y_引数至少输入一个"];
+  ALARM["X_Y_Enter at least one argument"];
 END_IF;
 FOR #1 = 135 TO 149;
   @[#1] = #0;
@@ -19,13 +19,13 @@ END_FOR;
 G31P2 X[#10-@[@111+2]] Y[#12-@[@111+3]] F@119;
 WAIT[0,0];
 
-#50 = R_SKIP[0,1];			G31P2信号触发
-#51 = R_SKIP[0,101];			G31P2触发X绝对坐标
-#52 = R_SKIP[0,102];			G31P2触发Y绝对坐标
-#53 = R_SKIP[0,102];			G31P2触发Z绝对坐标
-#54 = R_ABS_COOR[0,1];			记录当前X轴坐标
-#55 = R_ABS_COOR[0,2];			记录当前Y轴坐标
-#56 = R_ABS_COOR[0,2];			记录当前Z轴坐标
+#50 = R_SKIP[0,1];			   G31P2 signal trigger
+#51 = R_SKIP[0,101];			G31P2 Trigger X absolute coordinates
+#52 = R_SKIP[0,102];			G31P2 trigger Y absolute coordinate
+#53 = R_SKIP[0,102];			G31P2 Trigger Z absolute coordinates
+#54 = R_ABS_COOR[0,1];			Record the current X-axis coordinates
+#55 = R_ABS_COOR[0,2];			Record the current Y-axis coordinates
+#56 = R_ABS_COOR[0,2];			Record the current Z-axis coordinates
 #60 = ABS[#51-[#10-@[@111+2]]];
 #61 = ABS[#52-[#12-@[@111+3]]];
 #62 = ABS[#54-[#10-@[@111+2]]];
@@ -179,16 +179,22 @@ IF [#19 == #0];
 END_IF;
 M10732 S#19 W1.0;
 GOTO 24;
+
+
 N21;
 IF [@149 != 2];
   GOTO 22;
 END_IF;
 G00 X#10 Y#12;
 WAIT[0,0];
-ALARM["探测失败"];
+ALARM["probe failed"];
+
+
 N22;
 G00 X#10 Y#12;
-ALARM["探测打开"];
+ALARM["probe open"];
+
+
 N23;
 @148 = 3;
 IF [[@120&&4] == 4];

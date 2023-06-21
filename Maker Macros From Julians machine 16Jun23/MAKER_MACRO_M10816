@@ -1,16 +1,23 @@
 %
 O9816/*REN*EXTERNAL*COR!=R*/ 
+
+
 M10724 
+
 #40=R_ABS_COOR[0,1]
 #42=R_ABS_COOR[0,2]
+
 IF[#24!=#0]GOTO1 
 ALARM["X_Œ¥ ‰»Î"];/*X*INPUT*MISSING*/
+
 N1 
 IF[#25!=#0]GOTO2 
 ALARM["Y_Œ¥ ‰»Î"]/*Y*INPUT*MISSING*/
+
 N2 
 IF[#8==#0]GOTO3 
 ALARM["H_ ‰»Î¥ÌŒÛ"]/*H*INPUT*NOT*ALLOWED*/
+
 N3 
 FOR #1 = 135 TO 149;
   @[#1] = #0;

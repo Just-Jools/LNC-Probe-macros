@@ -1,0 +1,26 @@
+
+//Macro that just starts where-ever spindle is, goes down touches off and records the z height into the current coordinate system.//
+
+//assumes probe T30 is in spindle//
+
+
+G54         //select coordinate system to use//
+G91 // turn on incremental movement
+G43 H30 //use tool offset 30 which is my probe
+G09 G31P2 Z-10 F1500 //Seek move moving ten mm down. come to stop on signal
+if R_SKIP[0,1] = 1  //if probe triggered.
+    Z3              // retract 3 upwards
+G09 G31P2 Z-4 F50  Do a slow probe
+G91  // turn absulute mode on
+G00 Z0  //rapid probe up and out of the way
+
+// Need the code to add the probed Z coordinate to the current offset table//
+
+
+
+
+
+//R_SKIP[0,102]       //this is where the Z skip coordinates are stored.
+    
+    
+  Is this fairly basic but corect?
