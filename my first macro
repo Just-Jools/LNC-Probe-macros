@@ -3,18 +3,17 @@
 
 //assumes probe T30 is in spindle//
 
+M06 T30			//Tool change to probe incase it's not in the spindle
 
-G54         //select coordinate system to use//
-G91 // turn on incremental movement
-G43 H30 //use tool offset 30 which is my probe
-G09 G31P2 Z-10 F1500 //Seek move moving ten mm down. come to stop on signal
-if R_SKIP[0,1] = 1  //if probe triggered.
-    Z3              // retract 3 upwards
-G09 G31P2 Z-4 F50  Do a slow probe
-G90  // turn absulute mode on
-G00 Z0  //rapid probe up and out of the way
+G91 			// turn on incremental movement
+G43 H30 		//use tool offset 30 which is my probe
+G09 G31P2 Z-10 F1500 	//Seek move moving ten mm down. come to stop on signal
+G01 Z3 F100             // retract 3 upwards
+G09 G31P2 Z-4 F100  	//Do a slow probe
+G04 X2			//Wait a bit 			
+G00 G53 Z0  		//rapid probe up and out of the way using machine coordinates
 
-// Need the code to add the probed Z coordinate to the current offset table//
+G10 
 
 
 
