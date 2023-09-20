@@ -17,11 +17,11 @@ M10724;
 
 
 //I can't find out what variables 19 and 20 are//
-IF [#19 != #0 && #20 != #0];
+IF [#19 != #0 && #20 != #0];                                //#19 should be 's' which is the WCS coordinate to use. #20 is "T" which is tool number normally
   ALARM["S_ T_Can not be entered at the same time"];		//this translated alarm is still strange, maybe it means the inputs can't be the same?? So its either one or the other//
 END_IF;
 
-IF [#19 != #0 && #8 != #0];
+IF [#19 != #0 && #8 != #0];                                  //se above this is "S" (WCS) and "H" maybe tool length, tolerance or breakage detection limit
   ALARM["S_ H_Can not be entered at the same time"];		//this translated alarm is still strange, maybe it means the inputs can't be the same??//
 END_IF;
 
@@ -30,18 +30,18 @@ IF [#20 != #0 && #13 != #0];
 END_IF;
 
 
-//I can't find where #1 get's it's value from//
-FOR #1 = 135 TO 149;
-  @[#1] = #0;
+
+FOR #1 = 135 TO 149;                                //sets #1 to the values 135-149( so #135 to #149) then zeros them below
+  @[#1] = #0;                                       //so resets @'s 135 to 149 to 0
 END_FOR;
 
 
 
 //set variable #10 as the X coordinates//
-#10 = R_ABS_COOR[0,1];			Record the current X axis coordinates
+#10 = R_ABS_COOR[0,1];			Record the current X axis coordinates      //#10 is passed through as 'J' 
 
 //Set Variable #12 as the y coordinates//
-#12 = R_ABS_COOR[0,2];			Record the current Y Axis Coordinates.
+#12 = R_ABS_COOR[0,2];			Record the current Y Axis Coordinates.     //this is pass through 'L'
 
 
 //This is doing a protected move 

@@ -6,7 +6,7 @@ IF [#190 != 0];
 END_IF;
 M10724;
 
-IF [#4 == #0];
+IF [#4 == #0];                  //#4=letterD so we think this is if no diameter
   ALRM["D_≤Œ ˝Œ¥ ‰»Î"];
 END_IF;
 
