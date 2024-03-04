@@ -3,28 +3,28 @@
 WAIT[0,0];
 #190 = R_SYS_INFO[0,1]; 
 IF [#190 != 0];
-  GOTO 999;				Not Execute program£¬retiurn to main program
+  GOTO 999;				//Not Execute program£¬retiurn to main program
 END_IF;
 
-M10724;				Set Macro Program
+M10724;				//Set Macro Program, this is the configuration settings
 
-IF [#6 == #0 && @117 == #0];		No F value is set and @117 The last speed is empty
+IF [#6 == #0 && @117 == #0];		//No F value is set and @117 The last speed is empty
     ALARM["F Value Not Set"];
-ELSEIF [#6 == #0 && @117 != #0];	F value not specified£¬Read last F value
+ELSEIF [#6 == #0 && @117 != #0];	//F value not specified£¬Read last F value
     #6 = @117;
 END_IF;
 
 //in the above it looks like #6 is a speed variable then//
 
 
-@117 = #6;				Record this speed as the default speed
-@148 = 0;				Unknown Role
+@117 = #6;				//Record this speed as the default speed
+@148 = 0;				//Unknown Role
 
-G31P2 X#24 Y#25 Z#26 F#6;			Use G31P2 Move to specified point
+G31P2 X#24 Y#25 Z#26 F#6;			//Use G31P2 Move to specified point
 WAIT[0,0];
-#124 = R_ABS_COOR[0,1];			Read the absolute coordinates of the current X axis
-#125 = R_ABS_COOR[0,2];			Read the absolute coordinates of the current Y axis
-#126 = R_ABS_COOR[0,3];			Read the absolute coordinates of the current Z axis
+#124 = R_ABS_COOR[0,1];			//Read the absolute coordinates of the current X axis
+#125 = R_ABS_COOR[0,2];			//Read the absolute coordinates of the current Y axis
+#126 = R_ABS_COOR[0,3];			//Read the absolute coordinates of the current Z axis
 
 
 

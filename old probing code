@@ -1,0 +1,440 @@
+case "probing-x":
+
+        GV_X_APPROACH = 0
+        X_data = formatSetVar(GV_APPROACH1, GV_X_APPROACH),
+        GV_Z_DEPTH = xyzFormat.format(z - cycle.depth),
+        Z_data = formatSetVar(GV_CLEARANCE, GV_Z_DEPTH),
+        writeBlock(
+          X_data
+        );
+        writeBlock(
+          Z_data
+        );
+        writeBlock(
+          "G01 Z@" + GV_CLEARANCE + " " + feedOutput.format(cycle.feedrate)
+        );
+        writeBlock(
+          getProbingArguments(cycle, probeWorkOffsetCode)
+        );
+        writeBlock(
+          "M" + 10811,
+          "X@880 S@860 " + feedOutput.format(cycle.feedrate) + ";"
+        );
+      break;
+      case "probing-y":
+        GV_Y_APPROACH = 0
+        
+        Y_data = formatSetVar(GV_APPROACH1, GV_Y_APPROACH),
+        GV_Z_DEPTH = xyzFormat.format(z - cycle.depth),
+        Z_data = formatSetVar(GV_CLEARANCE, GV_Z_DEPTH),
+        writeBlock(
+          Y_data
+        );
+        writeBlock(
+          Z_data
+        );
+        writeBlock(
+          "G01 Z@" + GV_CLEARANCE + " " + feedOutput.format(cycle.feedrate)
+        );
+        writeBlock(
+          getProbingArguments(cycle, probeWorkOffsetCode)
+        );
+        writeBlock(
+          "M" + 10811,
+          "Y@880 S@860 " + feedOutput.format(cycle.feedrate) + ";"
+        );
+      break;
+      case "probing-z":
+            //GV_Z_DEPTH = 0,
+        GV_Z_DEPTH = xyzFormat.format(- cycle.probeOvertravel),                 //Jools changed 1709 to this. Trying to get it probe deeper than the surface
+        GV_Z_CLEARANCE = xyzFormat.format(cycle.probeClearance),
+        Z_data = formatSetVar(GV_APPROACH1, GV_Z_DEPTH),
+        Z_clearance_data = formatSetVar(GV_CLEARANCE, GV_Z_CLEARANCE),
+        writeBlock(
+            Z_data
+        );
+        writeBlock(
+            getProbingArguments(cycle, probeWorkOffsetCode)
+        );
+        writeBlock(
+            "M" + 10811,
+            "Z@880 S@860 " + feedOutput.format(cycle.feedrate) + ";"
+        );
+      break;
+      case "probing-x-wall":
+        GV_X_APPROACH = xyzFormat.format(cycle.width1),
+        GV_Z_DEPTH = xyzFormat.format(z - cycle.depth),
+        GV_Z_CLEARANCE = xyzFormat.format(cycle.probeClearance),
+        X_data = formatSetVar(GV_APPROACH1, GV_X_APPROACH),
+        Z_data = formatSetVar(GV_DEPTH, GV_Z_DEPTH),
+        Z_clearance_data = formatSetVar(GV_CLEARANCE, GV_Z_CLEARANCE),
+        writeBlock(
+            X_data
+        );
+        writeBlock(
+            Z_data
+          );
+        writeBlock(
+            getProbingArguments(cycle, probeWorkOffsetCode)
+        );
+        writeBlock(
+            "M" + 10812,
+            "X@880 Z@882 S@860 " + feedOutput.format(cycle.feedrate) + ";"
+        );
+        break;
+    case "probing-y-wall":
+      GV_Y_APPROACH = xyzFormat.format(cycle.width1),
+      GV_Z_DEPTH = xyzFormat.format(z - cycle.depth),
+      GV_Z_CLEARANCE = xyzFormat.format(cycle.probeClearance),
+      Y_data = formatSetVar(GV_APPROACH1, GV_Y_APPROACH),
+      Z_data = formatSetVar(GV_DEPTH, GV_Z_DEPTH),
+      Z_clearance_data = formatSetVar(GV_CLEARANCE, GV_Z_CLEARANCE),
+      writeBlock(
+          Y_data
+        );
+      writeBlock(
+          Z_data
+        );
+      writeBlock(
+          getProbingArguments(cycle, probeWorkOffsetCode)
+      );
+      writeBlock(
+          "M" + 10812,
+          "Y@881 Z@882 S@860 " + feedOutput.format(cycle.feedrate) + ";"
+      );
+      break;
+  case "probing-x-channel":
+      GV_X_APPROACH = xyzFormat.format(cycle.width1),
+      X_data = formatSetVar(GV_APPROACH1, GV_X_APPROACH),
+      
+      writeBlock(
+        X_data
+      );
+      writeBlock(
+        getProbingArguments(cycle, probeWorkOffsetCode)
+      );
+      writeBlock(
+        "M" + 10812,
+        "X@880 S@860 " + feedOutput.format(cycle.feedrate) + ";"
+      );
+      break;
+    case "probing-x-channel-with-island":
+      protectedProbeMove(cycle, x, y, z);
+      writeBlock(
+        gFormat.format(65), "P" + 9812,
+        "X" + xyzFormat.format(cycle.width1),
+        zOutput.format(z - cycle.depth),
+        "Q" + xyzFormat.format(cycle.probeOvertravel),
+        "R" + xyzFormat.format(-cycle.probeClearance),
+        getProbingArguments(cycle, probeWorkOffsetCode)
+      );
+      break;
+    case "probing-y-channel":
+      GV_Y_APPROACH = xyzFormat.format(cycle.width1),
+      Y_data = formatSetVar(GV_APPROACH1, GV_Y_APPROACH),
+      
+      writeBlock(
+        Y_data
+      );
+      writeBlock(
+        getProbingArguments(cycle, probeWorkOffsetCode)
+      );
+      writeBlock(
+        "M" + 10812,
+        "Y@880 S@860 " + feedOutput.format(cycle.feedrate) + ";"
+      );
+      break;
+    case "probing-y-channel-with-island":
+      protectedProbeMove(cycle, x, y, z);
+      writeBlock(
+        gFormat.format(65), "P" + 9812,
+        "Y" + xyzFormat.format(cycle.width1),
+        zOutput.format(z - cycle.depth),
+        "Q" + xyzFormat.format(cycle.probeOvertravel),
+        "R" + xyzFormat.format(-cycle.probeClearance),
+        getProbingArguments(cycle, probeWorkOffsetCode)
+      );
+      break;
+    case "probing-xy-circular-boss":
+      GV_D_WIDTH = xyzFormat.format(cycle.width1),
+      GV_Z_DEPTH = xyzFormat.format(z - cycle.depth),
+      GV_Z_CLEARANCE = xyzFormat.format(cycle.probeClearance),
+      D_data = formatSetVar(GV_APPROACH1, GV_D_WIDTH),
+      Z_data = formatSetVar(GV_DEPTH, GV_Z_DEPTH),
+      Z_clearance_data = formatSetVar(GV_CLEARANCE, GV_Z_CLEARANCE),
+      writeBlock(
+          D_data
+      );
+      writeBlock(
+          Z_data
+        );
+      writeBlock(
+          getProbingArguments(cycle, probeWorkOffsetCode)
+      );
+      writeBlock(
+          "M" + 10814,
+          "D@880 Z@882 S@860 " + feedOutput.format(cycle.feedrate) + ";"
+      );
+      break;
+    case "probing-xy-circular-partial-boss":
+      protectedProbeMove(cycle, x, y, z);
+      writeBlock(
+        gFormat.format(65), "P" + 9823,
+        "A" + xyzFormat.format(cycle.partialCircleAngleA),
+        "B" + xyzFormat.format(cycle.partialCircleAngleB),
+        "C" + xyzFormat.format(cycle.partialCircleAngleC),
+        "D" + xyzFormat.format(cycle.width1),
+        "Z" + xyzFormat.format(z - cycle.depth),
+        "Q" + xyzFormat.format(cycle.probeOvertravel),
+        "R" + xyzFormat.format(cycle.probeClearance),
+        getProbingArguments(cycle, probeWorkOffsetCode)
+      );
+      break;
+    case "probing-xy-circular-hole":
+      GV_D_WIDTH = xyzFormat.format(cycle.width1),
+      GV_Z_CLEARANCE = xyzFormat.format(cycle.probeClearance),
+      GV_Z_DEPTH = xyzFormat.format(z - cycle.depth),
+      D_data = formatSetVar(GV_APPROACH1, GV_D_WIDTH),
+      Z_clearance_data = formatSetVar(GV_CLEARANCE, GV_Z_CLEARANCE),
+      Z_data = formatSetVar(GV_DEPTH, GV_Z_DEPTH),
+      writeBlock(
+          D_data
+      );
+      writeBlock(
+        Z_data
+      );
+      writeBlock(
+          getProbingArguments(cycle, probeWorkOffsetCode)
+      );
+      writeBlock(
+        "Z@882 F150." 
+      );
+      writeBlock(
+          "M" + 10814,
+          "D@880 S@860 " + feedOutput.format(cycle.feedrate) + ";"
+      );
+      break;
+    case "probing-xy-circular-hole-with-island":
+      protectedProbeMove(cycle, x, y, z);
+      writeBlock(
+        gFormat.format(65), "P" + 9814,
+        "Z" + xyzFormat.format(z - cycle.depth),
+        "D" + xyzFormat.format(cycle.width1),
+        "Q" + xyzFormat.format(cycle.probeOvertravel),
+        "R" + xyzFormat.format(-cycle.probeClearance),
+        getProbingArguments(cycle, probeWorkOffsetCode)
+      );
+      break;
+    case "probing-xy-circular-partial-hole-with-island":
+      protectedProbeMove(cycle, x, y, z);
+      writeBlock(
+        gFormat.format(65), "P" + 9823,
+        "Z" + xyzFormat.format(z - cycle.depth),
+        "A" + xyzFormat.format(cycle.partialCircleAngleA),
+        "B" + xyzFormat.format(cycle.partialCircleAngleB),
+        "C" + xyzFormat.format(cycle.partialCircleAngleC),
+        "D" + xyzFormat.format(cycle.width1),
+        "Q" + xyzFormat.format(cycle.probeOvertravel),
+        "R" + xyzFormat.format(-cycle.probeClearance),
+        getProbingArguments(cycle, probeWorkOffsetCode)
+      );
+      break;
+    case "probing-xy-rectangular-hole":
+      protectedProbeMove(cycle, x, y, z - cycle.depth);
+      writeBlock(
+        gFormat.format(65), "M" + 9812,
+        "X" + xyzFormat.format(cycle.width1),
+        "Q" + xyzFormat.format(cycle.probeOvertravel),
+        // not required "R" + xyzFormat.format(-cycle.probeClearance),
+        getProbingArguments(cycle, probeWorkOffsetCode)
+      );
+      writeBlock(
+        "M" + 9812,
+        "Y" + xyzFormat.format(cycle.width2),
+        "Q" + xyzFormat.format(cycle.probeOvertravel),
+        // not required "R" + xyzFormat.format(-cycle.probeClearance),
+        getProbingArguments(cycle, probeWorkOffsetCode)
+      );
+      break;
+    case "probing-xy-rectangular-boss":
+        GV_X_APPROACH = xyzFormat.format(cycle.width1),
+        GV_Y_APPROACH = xyzFormat.format(cycle.width2),
+        GV_Z_DEPTH = xyzFormat.format(z - cycle.depth),
+        GV_Z_CLEARANCE = xyzFormat.format(cycle.probeClearance),
+        X_data = formatSetVar(GV_APPROACH1, GV_X_APPROACH),
+        Y_data = formatSetVar(GV_APPROACH2, GV_Y_APPROACH),
+        Z_data = formatSetVar(GV_DEPTH, GV_Z_DEPTH),
+        Z_clearance_data = formatSetVar(GV_CLEARANCE, GV_Z_CLEARANCE),
+        writeBlock(
+            X_data
+        );
+        writeBlock(
+            Y_data
+          );
+        writeBlock(
+            Z_data
+          );
+        writeBlock(
+            getProbingArguments(cycle, probeWorkOffsetCode)
+        );
+        writeBlock(
+            "M" + 10812,
+            "X@880 Z@882 S@860 " + feedOutput.format(cycle.feedrate) + ";"
+        );
+        writeBlock(
+            "M" + 10812,
+            "Y@881 Z@882 S@860 " + feedOutput.format(cycle.feedrate) + ";"
+        );
+        break;
+    case "probing-xy-rectangular-hole-with-island":
+      protectedProbeMove(cycle, x, y, z);
+      writeBlock(
+        "M" + 9812,
+        "Z" + xyzFormat.format(z - cycle.depth),
+        "X" + xyzFormat.format(cycle.width1),
+        "Q" + xyzFormat.format(cycle.probeOvertravel),
+        "R" + xyzFormat.format(-cycle.probeClearance),
+        getProbingArguments(cycle, probeWorkOffsetCode)
+      );
+      writeBlock(
+        gFormat.format(65), "P" + 9812,
+        "Z" + xyzFormat.format(z - cycle.depth),
+        "Y" + xyzFormat.format(cycle.width2),
+        "Q" + xyzFormat.format(cycle.probeOvertravel),
+        "R" + xyzFormat.format(-cycle.probeClearance),
+        getProbingArguments(cycle, probeWorkOffsetCode)
+      );
+      break;
+
+    case "probing-xy-inner-corner":
+      GV_X_APPROACH = xyzFormat.format(cycle.approach1),
+      GV_Y_APPROACH = xyzFormat.format(cycle.approach2),
+      GV_Z_DEPTH = xyzFormat.format(z - cycle.depth),
+      GV_Z_CLEARANCE = xyzFormat.format(cycle.probeClearance),
+      X_data = formatSetVar(GV_APPROACH1, GV_X_APPROACH),
+      Y_data = formatSetVar(GV_APPROACH2, GV_X_APPROACH),
+      Z_data = formatSetVar(GV_DEPTH, GV_Z_DEPTH),
+      Z_clearance_data = formatSetVar(GV_CLEARANCE, GV_Z_CLEARANCE),
+      writeBlock(
+          X_data
+      );
+      writeBlock(
+          Y_data
+        );
+      writeBlock(
+          getProbingArguments(cycle, probeWorkOffsetCode)
+      );
+      writeBlock(
+          "M" + 10815,
+          "X@880 Y@881 S@860 " + feedOutput.format(cycle.feedrate) + ";"
+      );
+      break;
+  case "probing-xy-outer-corner":
+    GV_X_APPROACH = x + approach(cycle.approach1);
+    GV_Y_APPROACH = y + approach(cycle.approach2);
+    GV_Z_DEPTH = xyzFormat.format(z - cycle.depth),
+    GV_Z_CLEARANCE = xyzFormat.format(cycle.probeClearance),
+    X_data = formatSetVar(GV_APPROACH1, GV_X_APPROACH),
+    Y_data = formatSetVar(GV_APPROACH2, GV_X_APPROACH),
+    Z_data = formatSetVar(GV_DEPTH, GV_Z_DEPTH),
+    Z_clearance_data = formatSetVar(GV_CLEARANCE, GV_Z_CLEARANCE),
+    writeBlock(
+        X_data
+    );
+    writeBlock(
+        Y_data
+      );
+    writeBlock(
+        getProbingArguments(cycle, probeWorkOffsetCode)
+    );
+    writeBlock(
+        "M" + 10816,
+        "X@880 Y@881 S@860 " + feedOutput.format(cycle.feedrate) + ";"
+    );
+    break;
+  case "probing-x-plane-angle":
+      protectedProbeMove(cycle, x, y, z - cycle.depth);
+      GV_X_APPROACH = xyzFormat.format(cycle.approach1),
+      X_data = formatSetVar(GV_APPROACH1, GV_X_APPROACH),
+      GV_PROBE_GAP = xyzFormat.format(cycle.probeSpacing),
+      GV_PROBE_SPACING_DATA = formatSetVar(GV_PROBE_SPACING, GV_PROBE_GAP),
+      X_data = formatSetVar(GV_APPROACH1, GV_X_APPROACH),
+      GV_NOMINAL_ANGLE = xyzFormat.format(cycle.nominalAngle != undefined ? cycle.nominalAngle : 90),
+      GV_NOM_ANG_DATA = formatSetVar(GV_NOM_ANGLE, GV_NOMINAL_ANGLE),
+      writeBlock(
+        X_data
+      );
+      writeBlock(
+        GV_PROBE_SPACING_DATA
+      );
+      writeBlock(
+        GV_NOM_ANG_DATA
+      );
+      writeBlock(
+        "M" + 10843,
+        "X@880 D@883 A@884" + feedOutput.format(cycle.feedrate) + ";"
+      );
+      g68RotationMode = 1;
+      break;
+    case "probing-y-plane-angle":
+      protectedProbeMove(cycle, x, y, z - cycle.depth);
+      GV_X_APPROACH = xyzFormat.format(cycle.approach1),
+      X_data = formatSetVar(GV_APPROACH1, GV_X_APPROACH),
+      GV_PROBE_GAP = xyzFormat.format(cycle.probeSpacing),
+      GV_PROBE_SPACING_DATA = formatSetVar(GV_PROBE_SPACING, GV_PROBE_GAP),
+      X_data = formatSetVar(GV_APPROACH1, GV_X_APPROACH),
+      GV_NOMINAL_ANGLE = xyzFormat.format(cycle.nominalAngle != undefined ? cycle.nominalAngle : 90),
+      GV_NOM_ANG_DATA = formatSetVar(GV_NOM_ANGLE, GV_NOMINAL_ANGLE),
+      writeBlock(
+        X_data
+      );
+      writeBlock(
+        GV_PROBE_SPACING_DATA
+      );
+      writeBlock(
+        GV_NOM_ANG_DATA
+      );
+      writeBlock(
+        "M" + 10843,
+        "Y@880 D@883 A@884" + feedOutput.format(cycle.feedrate) + ";"
+      );
+      g68RotationMode = 1;
+      break;
+    case "probing-xy-pcd-hole":
+      protectedProbeMove(cycle, x, y, z);
+      writeBlock(
+        gFormat.format(65), "P" + 9819,
+        "A" + xyzFormat.format(cycle.pcdStartingAngle),
+        "B" + xyzFormat.format(cycle.numberOfSubfeatures),
+        "C" + xyzFormat.format(cycle.widthPCD),
+        "D" + xyzFormat.format(cycle.widthFeature),
+        "K" + xyzFormat.format(z - cycle.depth),
+        "Q" + xyzFormat.format(cycle.probeOvertravel),
+        getProbingArguments(cycle, false)
+      );
+      if (cycle.updateToolWear) {
+        error(localize("Update tool action is not supported with this cycle"));
+        return;
+      }
+      break;
+    case "probing-xy-pcd-boss":
+      protectedProbeMove(cycle, x, y, z);
+      writeBlock(
+        gFormat.format(65), "P" + 9819,
+        "A" + xyzFormat.format(cycle.pcdStartingAngle),
+        "B" + xyzFormat.format(cycle.numberOfSubfeatures),
+        "C" + xyzFormat.format(cycle.widthPCD),
+        "D" + xyzFormat.format(cycle.widthFeature),
+        "Z" + xyzFormat.format(z - cycle.depth),
+        "Q" + xyzFormat.format(cycle.probeOvertravel),
+        "R" + xyzFormat.format(cycle.probeClearance),
+        getProbingArguments(cycle, false)
+      );
+      if (cycle.updateToolWear) {
+        error(localize("Update tool action is not supported with this cycle"));
+        return;
+      }
+      break;
+    default:
+      expandCyclePoint(x, y, z);
+    }

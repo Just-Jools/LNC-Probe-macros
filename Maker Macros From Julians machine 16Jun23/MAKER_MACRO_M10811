@@ -1,4 +1,4 @@
-;XYZ单个平面测量 Single Plane Measurement
+;XYZ单个平面测量 XY or Z measure
 
 
 WAIT[0,0];
@@ -16,17 +16,24 @@ M10724;
 
 
 
-//I can't find out what variables 19 and 20 are//
-IF [#19 != #0 && #20 != #0];                                //#19 should be 's' which is the WCS coordinate to use. #20 is "T" which is tool number normally
-  ALARM["S_ T_Can not be entered at the same time"];		//this translated alarm is still strange, maybe it means the inputs can't be the same?? So its either one or the other//
+//S (WCS) or T (Toolnumber) needs a value here. if neither have a value then alarm, if they both have a value alarm. Think it says WCS and tool offfset adjustment can't be done in the same procedure//
+IF [#19 != #0 && #20 != #0];                                
+  ALARM["S or T need to have a vlaue"];		
 END_IF;
 
-IF [#19 != #0 && #8 != #0];                                  //se above this is "S" (WCS) and "H" maybe tool length, tolerance or breakage detection limit
-  ALARM["S_ H_Can not be entered at the same time"];		//this translated alarm is still strange, maybe it means the inputs can't be the same??//
+
+
+// S (WCS) and H (tolerance can't be measured at the same time)//
+IF [#19 != #0 && #8 != #0];                                  
+  ALARM["Cant set WCS and measure tolerance at same time"];		
 END_IF;
 
+
+
+
+//T (tooloffset) and M (true position ) cant be measured at same time
 IF [#20 != #0 && #13 != #0];
-  ALARM["T_ M_Can not be entered at the same time"];		//this translated alarm is still strange, maybe it means the inputs can't be the same??//
+  ALARM["Tool offset and out of position can't be measured at same time"];		
 END_IF;
 
 

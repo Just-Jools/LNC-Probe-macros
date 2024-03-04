@@ -33,7 +33,7 @@ END_IF;
 
 @123 = 0.05;//[*INPOS*ZONE*MM*]			//Used in m10810 to determine if probe is in position//
 @129 = 1;						// this gets referenced in M10726 and sets the speed for the slow seek//
-@119 = 1500;//[FAST*FEED*MM]				// I think this sets the feed rate for seeking a touch off
+@119 = 2500;//[FAST*FEED*MM]				// I think this sets the feed rate for seeking a touch off
 GOTO5;
 
 N4;

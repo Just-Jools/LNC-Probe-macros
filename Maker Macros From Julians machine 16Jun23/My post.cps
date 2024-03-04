@@ -264,6 +264,11 @@ function writeBlock() {
   }
 }
 
+
+
+
+
+
 /**
   Writes the specified optional block.
 */
@@ -287,6 +292,22 @@ function formatSetVar(gVar, val)  //added by ua
 {
 	return "@" + gVar + "=" + val;
 }
+
+
+
+/**
+  Jools added pass through 
+*/
+function onPassThrough(text) {
+  var commands = String(text).split(",");
+  for (text in commands) {
+    writeBlock(commands[text]);
+  }
+}
+
+
+
+
 
 /**
   Output a comment.
@@ -339,6 +360,12 @@ function onOpen() {
     writeComment(programComment);
     }
    
+
+
+
+
+
+
 
   // dump machine configuration
   var vendor = machineConfiguration.getVendor();
@@ -965,7 +992,7 @@ function onSection() {
     nullProbeAngle(true);
     // stop spindle before retract during tool change
     if (insertToolCall && !isFirstSection()) {
-     onCommand(COMMAND_STOP_SPINDLE);                           //JT
+      onCommand(COMMAND_STOP_SPINDLE);
     }
     
     // retract to safe plane
@@ -1121,9 +1148,9 @@ function onSection() {
   }
 
   // wcs
-  //if (insertToolCall) { // force work offset when changing tool
-  //  currentWorkOffset = undefined;
-  //}
+  if (insertToolCall) { // force work offset when changing tool
+    currentWorkOffset = undefined;
+  }
   var workOffset = currentSection.workOffset;
   if (workOffset == 0) {
     warningOnce(localize("Work offset has not been specified. Using G54 as WCS."), WARNING_WORK_OFFSET);
@@ -1706,8 +1733,7 @@ function onCyclePoint(x, y, z) {
         );
       break;
       case "probing-z":
-            //GV_Z_DEPTH = 0,
-        GV_Z_DEPTH = xyzFormat.format(- cycle.probeOvertravel),                 //Jools changed 1709 to this. Trying to get it probe deeper than the surface
+        GV_Z_DEPTH = 0,
         GV_Z_CLEARANCE = xyzFormat.format(cycle.probeClearance),
         Z_data = formatSetVar(GV_APPROACH1, GV_Z_DEPTH),
         Z_clearance_data = formatSetVar(GV_CLEARANCE, GV_Z_CLEARANCE),
@@ -2832,8 +2858,7 @@ function writeRetract() {
     if (words.length > 0) {
       gMotionModal.reset();
       gAbsIncModal.reset();
-    writeBlock(gFormat.format(53), gAbsIncModal.format(90), gFormat.format(0), words); // G53 retract & Home changed JT to line below
-      
+      writeBlock(gFormat.format(53), gAbsIncModal.format(90), gFormat.format(0), words); // G53 retract & Home
     }
   
   } else {
