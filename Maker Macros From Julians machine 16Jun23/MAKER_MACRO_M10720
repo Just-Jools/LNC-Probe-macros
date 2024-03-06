@@ -1,9 +1,0 @@
-;Probe off
-#190 = R_SYS_INFO[0,1];	
-IF [#190 != 0];
-  GOTO 999;		not execute program£¬return to main program
-END_IF;
-M10101;			Probe off
-M10020;			Spindle positioning off
-N999
-M99;
