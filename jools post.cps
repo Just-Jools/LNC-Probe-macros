@@ -1717,7 +1717,7 @@ function onCyclePoint(x, y, z) {
     case "probing-x":
       forceXYZ();
       // writeBlock(gFormat.format(31), "P2 ", zOutput.format(z - cycle.depth), "F50");  // protected positioning move 
-      writeBlock(gFormat.format(65), '"PROTECTEDMOVE"', zOutput.format(z - cycle.depth));
+      writeBlock(mFormat.format(10802), zOutput.format(z - cycle.depth));
 
       WCS_CODE   = getProbingArguments(cycle, probeWorkOffsetCode);
       EXPECTED_Y = yOutput.format(y + approach(cycle.approach1)*(cycle.probeClearance + tool.diameter / 2));
@@ -1726,7 +1726,7 @@ function onCyclePoint(x, y, z) {
       DISTANCE   = approach(cycle.approach1)*(cycle.probeClearance + tool.diameter / 2 + cycle.probeOvertravel)
       B_ARG      = "B"+xyzFormat.format(DISTANCE)
 
-      writeBlock(gFormat.format(65), '"PROBEX"', WCS_CODE[7], WCS_CODE[8], B_ARG);
+      writeBlock(mFormat.format(10803), WCS_CODE[7], WCS_CODE[8], B_ARG);    //JT macro call
      // writeBlock(gFormat.format(65), '"CHECKPOSITIONALTOLERANCE"', WCS_CODE[8], WCS_CODE[9], WCS_CODE[3],'V1', EXPECTED_X, EXPECTED_Y, EXPECTED_Z);   //JT turning off 
       break;
     
@@ -1734,7 +1734,7 @@ function onCyclePoint(x, y, z) {
       case "probing-y":
       forceXYZ();
       // writeBlock(gFormat.format(31), "P2 ", zOutput.format(z - cycle.depth), "F50");  // protected positioning move 
-      writeBlock(gFormat.format(65), '"PROTECTEDMOVE"', zOutput.format(z - cycle.depth));
+      writeBlock(mFormat.format(10802), zOutput.format(z - cycle.depth));  //JT macro call
 
       WCS_CODE   = getProbingArguments(cycle, probeWorkOffsetCode);
       EXPECTED_Y = yOutput.format(y + approach(cycle.approach1)*(cycle.probeClearance + tool.diameter / 2));
@@ -1743,7 +1743,7 @@ function onCyclePoint(x, y, z) {
       DISTANCE   = approach(cycle.approach1)*(cycle.probeClearance + tool.diameter / 2 + cycle.probeOvertravel)
       B_ARG      = "B"+xyzFormat.format(DISTANCE)
 
-      writeBlock(gFormat.format(65), '"PROBEY"', WCS_CODE[7], WCS_CODE[8], B_ARG);
+      writeBlock(mFormat.format(10804), WCS_CODE[7], WCS_CODE[8], B_ARG);
       //writeBlock(gFormat.format(65), '"CHECKPOSITIONALTOLERANCE"', WCS_CODE[8], WCS_CODE[9], WCS_CODE[3], 'V2', EXPECTED_X, EXPECTED_Y, EXPECTED_Z);    //JT turning off 
       break;
     
@@ -1752,7 +1752,7 @@ function onCyclePoint(x, y, z) {
       forceXYZ();
       Z_START = Math.min(z - cycle.depth + cycle.probeClearance, cycle.retract)
       // writeBlock(gFormat.format(31), "P2 ", zOutput.format(Z_START), "F50");  // protected positioning move 
-      writeBlock(gFormat.format(65), '"PROTECTEDMOVE"', zOutput.format(Z_START));
+      writeBlock(mFormat.format(10802), zOutput.format(Z_START));   //JT Macro call
 
       WCS_CODE   = getProbingArguments(cycle, probeWorkOffsetCode);
       EXPECTED_X = xOutput.format(x);
@@ -1760,7 +1760,7 @@ function onCyclePoint(x, y, z) {
       EXPECTED_Z = "Z"+xyzFormat.format(cycle.stock - cycle.depth);
       B_ARG      = "B" + xyzFormat.format(-cycle.depth-cycle.probeOvertravel)
 
-      writeBlock(gFormat.format(65), '"PROBEZ"', WCS_CODE[7], WCS_CODE[8], B_ARG);
+      writeBlock(mFormat.format(10805), WCS_CODE[7], WCS_CODE[8], B_ARG);
       //writeBlock(gFormat.format(65), '"CHECKPOSITIONALTOLERANCE"', WCS_CODE[8], WCS_CODE[9], WCS_CODE[3], 'V3', EXPECTED_X, EXPECTED_Y, EXPECTED_Z);    //JT turning off 
       break;
     
@@ -1768,38 +1768,38 @@ function onCyclePoint(x, y, z) {
       case "probing-x-wall":
       forceXYZ();
       // writeBlock(gFormat.format(31), "P2 ", zOutput.format(z), "F50");  // protected positioning move 
-      writeBlock(gFormat.format(65), '"PROTECTEDMOVE"', zOutput.format(z));
+      writeBlock(mFormat.format(10802), zOutput.format(z));   //JT macro call
 
       WCS_CODE  = getProbingArguments(cycle, probeWorkOffsetCode);
       WEB_WIDTH ="B"+xyzFormat.format(cycle.width1)
       Z_DROP    = "C"+xyzFormat.format(cycle.depth),
 
-      writeBlock(gFormat.format(65), '"PROBEXWEB"', WCS_CODE[7], WCS_CODE[8], WEB_WIDTH, Z_DROP, "Q0", WCS_CODE[2]);
+      writeBlock(mFormat.format(10806), WCS_CODE[7], WCS_CODE[8], WEB_WIDTH, Z_DROP, "Q0", WCS_CODE[2]);
       break;
     
     
       case "probing-y-wall":
       forceXYZ();
       // writeBlock(gFormat.format(31), "P2 ", zOutput.format(z), "F50");  // protected positioning move 
-      writeBlock(gFormat.format(65), '"PROTECTEDMOVE"', zOutput.format(z));
+      writeBlock(mFormat.format(10802), zOutput.format(z));   //JT Macro call
 
       WCS_CODE  = getProbingArguments(cycle, probeWorkOffsetCode);
       WEB_WIDTH ="B"+xyzFormat.format(cycle.width1)
       Z_DROP    = "C"+xyzFormat.format(cycle.depth),
 
-      writeBlock(gFormat.format(65), '"PROBEYWEB"', WCS_CODE[7], WCS_CODE[8], WEB_WIDTH, Z_DROP, "Q0", WCS_CODE[2]);
+      writeBlock(mFormat.format(10807), WCS_CODE[7], WCS_CODE[8], WEB_WIDTH, Z_DROP, "Q0", WCS_CODE[2]);
       break;
     
     
       case "probing-x-channel":
       forceXYZ();
       // writeBlock(gFormat.format(31), "P2 ", zOutput.format(z - cycle.depth), "F50");  // protected positioning move 
-      writeBlock(gFormat.format(65), '"PROTECTEDMOVE"', zOutput.format(z - cycle.depth));
+      writeBlock(mFormat.format(10802), zOutput.format(z - cycle.depth));   //JT macro call
 
       WCS_CODE   = getProbingArguments(cycle, probeWorkOffsetCode);
       SLOT_WIDTH ="B"+xyzFormat.format(cycle.width1);
       
-      writeBlock(gFormat.format(65), '"PROBEXSLOT"', WCS_CODE[7], WCS_CODE[8], SLOT_WIDTH, "Q0", WCS_CODE[2]);
+      writeBlock(mFormat.format(10808), WCS_CODE[7], WCS_CODE[8], SLOT_WIDTH, "Q0", WCS_CODE[2]);
       break;
     
     
@@ -1820,12 +1820,12 @@ function onCyclePoint(x, y, z) {
       case "probing-y-channel":
       forceXYZ();
       // writeBlock(gFormat.format(31), "P2 ", zOutput.format(z - cycle.depth), "F50");  // protected positioning move 
-      writeBlock(gFormat.format(65), '"PROTECTEDMOVE"', zOutput.format(z - cycle.depth));
+      writeBlock(mFormat.format(10802), zOutput.format(z - cycle.depth)); //JT macro call
 
       WCS_CODE   = getProbingArguments(cycle, probeWorkOffsetCode);
       SLOT_WIDTH ="B"+xyzFormat.format(cycle.width1);
 
-      writeBlock(gFormat.format(65), '"PROBEYSLOT"', WCS_CODE[7], WCS_CODE[8], SLOT_WIDTH, "Q0", WCS_CODE[2]);
+      writeBlock(mFormat.format(10809), WCS_CODE[7], WCS_CODE[8], SLOT_WIDTH, "Q0", WCS_CODE[2]);
       break;
     
     
@@ -1846,7 +1846,7 @@ function onCyclePoint(x, y, z) {
       case "probing-xy-circular-boss":
       forceXYZ();
       // writeBlock(gFormat.format(31), "P2 ", zOutput.format(z), "F50");  // protected positioning move 
-      writeBlock(gFormat.format(65), '"PROTECTEDMOVE"', zOutput.format(z));
+      writeBlock(mFormat.format(10802), zOutput.format(z)); //JT macro call
 
       WCS_CODE      = getProbingArguments(cycle, probeWorkOffsetCode);
       BOSS_DIAMETER = "B"+xyzFormat.format(cycle.width1);
@@ -1855,10 +1855,10 @@ function onCyclePoint(x, y, z) {
       EXPECTED_Y    = yOutput.format(y);
       EXPECTED_Z    = "Z"+xyzFormat.format(cycle.stock - cycle.depth);
 
-      writeBlock(gFormat.format(65), '"PROBECIRCULARBOSS"', WCS_CODE[7], WCS_CODE[8], BOSS_DIAMETER, Z_DROP, "Q0", WCS_CODE[2]);
+      writeBlock(mFormat.format(10810), WCS_CODE[7], WCS_CODE[8], BOSS_DIAMETER, Z_DROP, "Q0", WCS_CODE[2]);
       //writeBlock(gFormat.format(65), '"CHECKPOSITIONALTOLERANCE"', WCS_CODE[8], WCS_CODE[9], WCS_CODE[3],'V4', EXPECTED_X, EXPECTED_Y, EXPECTED_Z);     //JT 
       if(properties.EnableZeroPointCompensation == true && WCS_CODE[7] == null){
-      writeBlock(gFormat.format(65), '"COMPZEROPOINT"', WCS_CODE[8], WCS_CODE[9], EXPECTED_X, EXPECTED_Y, EXPECTED_Z);
+      writeBlock(mFormat.format(10814), WCS_CODE[8], WCS_CODE[9], EXPECTED_X, EXPECTED_Y, EXPECTED_Z);
       }
       break;
     
@@ -1883,7 +1883,7 @@ function onCyclePoint(x, y, z) {
       case "probing-xy-circular-hole":
       forceXYZ();
       // writeBlock(gFormat.format(31), "P2 ", zOutput.format(z - cycle.depth), "F50");  // protected positioning move 
-      writeBlock(gFormat.format(65), '"PROTECTEDMOVE"', zOutput.format(z - cycle.depth));
+      writeBlock(mFormat.format(10802), zOutput.format(z - cycle.depth));   //JT macro call
 
       WCS_CODE      = getProbingArguments(cycle, probeWorkOffsetCode);
       BORE_DIAMETER = "B"+xyzFormat.format(cycle.width1);
@@ -1891,10 +1891,10 @@ function onCyclePoint(x, y, z) {
       EXPECTED_Y    = yOutput.format(y);
       EXPECTED_Z    = "Z"+xyzFormat.format(cycle.stock - cycle.depth);
 
-      writeBlock(gFormat.format(65), '"PROBEBORE"', WCS_CODE[7], WCS_CODE[8], BORE_DIAMETER, "Q0", WCS_CODE[2]);
+      writeBlock(mFormat.format(10812), WCS_CODE[7], WCS_CODE[8], BORE_DIAMETER, "Q0", WCS_CODE[2]);
       //writeBlock(gFormat.format(65), '"CHECKPOSITIONALTOLERANCE"', WCS_CODE[8], WCS_CODE[9], WCS_CODE[3],'V4', EXPECTED_X, EXPECTED_Y, EXPECTED_Z);   //JT turning off 
       if(properties.EnableZeroPointCompensation == true && WCS_CODE[7] == null){
-      writeBlock(gFormat.format(65), '"COMPZEROPOINT"', WCS_CODE[8], WCS_CODE[9], EXPECTED_X, EXPECTED_Y, EXPECTED_Z);
+      writeBlock(mFormat.format(10814), WCS_CODE[8], WCS_CODE[9], EXPECTED_X, EXPECTED_Y, EXPECTED_Z);
       }
       break;
     
@@ -1933,7 +1933,7 @@ function onCyclePoint(x, y, z) {
       case "probing-xy-rectangular-hole":
       forceXYZ();
       // writeBlock(gFormat.format(31), "P2 ", zOutput.format(z - cycle.depth), "F50");  // protected positioning move 
-      writeBlock(gFormat.format(65), '"PROTECTEDMOVE"', zOutput.format(z - cycle.depth));
+      writeBlock(mFormat.format(10802), zOutput.format(z - cycle.depth));   //JT macro call
 
       WCS_CODE   = getProbingArguments(cycle, probeWorkOffsetCode);
       XWEB_WIDTH = "B"+xyzFormat.format(cycle.width1);
@@ -1942,9 +1942,9 @@ function onCyclePoint(x, y, z) {
       EXPECTED_Y = yOutput.format(y);
       EXPECTED_Z = "Z"+xyzFormat.format(cycle.stock - cycle.depth);
 
-          writeBlock(gFormat.format(65), '"PROBEPOCKET"', WCS_CODE[7], WCS_CODE[8], XWEB_WIDTH, YWEB_WIDTH, "Q0", WCS_CODE[2]);//JT
+          writeBlock(mFormat.format(10813), WCS_CODE[7], WCS_CODE[8], XWEB_WIDTH, YWEB_WIDTH, "Q0", WCS_CODE[2]);//JT
       if(properties.EnableZeroPointCompensation == true && WCS_CODE[7] == null){
-      writeBlock(gFormat.format(65), '"COMPZEROPOINT"', WCS_CODE[8], WCS_CODE[9], EXPECTED_X, EXPECTED_Y, EXPECTED_Z);
+      writeBlock(mFormat.format(10814), WCS_CODE[8], WCS_CODE[9], EXPECTED_X, EXPECTED_Y, EXPECTED_Z);
       }
       break;
     
@@ -1952,7 +1952,7 @@ function onCyclePoint(x, y, z) {
       case "probing-xy-rectangular-boss":
       forceXYZ();
       // writeBlock(gFormat.format(31), "P2 ", zOutput.format(z), "F50");  // protected positioning move 
-      writeBlock(gFormat.format(65), '"PROTECTEDMOVE"', zOutput.format(z));
+      writeBlock(mFormat.format(10802), zOutput.format(z));     //JT macro call
 
       WCS_CODE   = getProbingArguments(cycle, probeWorkOffsetCode);
       XWEB_WIDTH = "B"+xyzFormat.format(cycle.width1);
@@ -1962,10 +1962,10 @@ function onCyclePoint(x, y, z) {
       EXPECTED_Z = "Z"+xyzFormat.format(cycle.stock - cycle.depth);
       Z_DROP     = "D"+xyzFormat.format(cycle.depth);
      
-      writeBlock(gFormat.format(65), '"PROBERECTANGULARBOSS"', WCS_CODE[7], WCS_CODE[8], XWEB_WIDTH, YWEB_WIDTH, Z_DROP, "Q0", WCS_CODE[2]);
+      writeBlock(mFormat.format(10815), WCS_CODE[7], WCS_CODE[8], XWEB_WIDTH, YWEB_WIDTH, Z_DROP, "Q0", WCS_CODE[2]);
       //writeBlock(gFormat.format(65), '"CHECKPOSITIONALTOLERANCE"', WCS_CODE[8], WCS_CODE[9], WCS_CODE[3],'V4', EXPECTED_X, EXPECTED_Y, EXPECTED_Z);     //JT turning off 
       if(properties.EnableZeroPointCompensation == true && WCS_CODE[7] == null){
-      writeBlock(gFormat.format(65), '"COMPZEROPOINT"', WCS_CODE[8], WCS_CODE[9], EXPECTED_X, EXPECTED_Y, EXPECTED_Z);
+      writeBlock(mFormat.format(10814), WCS_CODE[8], WCS_CODE[9], EXPECTED_X, EXPECTED_Y, EXPECTED_Z);
       }
       break;
     case "probing-xy-rectangular-hole-with-island":
@@ -1992,13 +1992,13 @@ function onCyclePoint(x, y, z) {
     case "probing-xy-inner-corner":
       forceXYZ();
       // writeBlock(gFormat.format(31), "P2 ", zOutput.format(z - cycle.depth), "F50");  // protected positioning move 
-      writeBlock(gFormat.format(65), '"PROTECTEDMOVE"', zOutput.format(z - cycle.depth));
+      writeBlock(mFormat.format(10802), zOutput.format(z - cycle.depth));   //JT macro call
 
       WCS_CODE         = getProbingArguments(cycle, probeWorkOffsetCode);
       CORNER_POSITION  = "B"+xyzFormat.format(cycle.width1)
       PROBING_DISTANCE = "C"+xyzFormat.format(cycle.width2)
      
-      writeBlock(gFormat.format(65), '"PROBEINSIDECORNER"', WCS_CODE[8], CORNER_POSITION, PROBING_DISTANCE, "Q0");
+      writeBlock(mFormat.format(10816), WCS_CODE[8], CORNER_POSITION, PROBING_DISTANCE, "Q0");
       break;
     case "probing-xy-outer-corner":
       xdir =  approach(cycle.approach1)
@@ -2011,7 +2011,7 @@ function onCyclePoint(x, y, z) {
 
       forceXYZ();
       // writeBlock(gFormat.format(31), "P2 ", zOutput.format(z), "F50");  // protected positioning move 
-      writeBlock(gFormat.format(65), '"PROTECTEDMOVE"', zOutput.format(z-cycle.depth));
+      writeBlock(mFormat.format(10802), zOutput.format(z-cycle.depth));     //JT macro call
 
       WCS_CODE         = getProbingArguments(cycle, probeWorkOffsetCode);
       CORNER_POSITION  = "B"+CORNER_NUM
@@ -2019,7 +2019,7 @@ function onCyclePoint(x, y, z) {
       PROBING_DISTANCE = "D"+xyzFormat.format(cycle.probeClearance + cycle.probeOvertravel)
       
 
-      writeBlock(gFormat.format(65), '"PROBEOUTSIDECORNER"', 
+      writeBlock(mFormat.format(10817), 
                  WCS_CODE[8], 
                  CORNER_POSITION, 
                  TRAVEL_DISTANCE, 
