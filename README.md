@@ -1,8 +1,9 @@
 # LNC Probe macros
- Probe macros for the LNC controller for CNC machining.
- 
- // 
- https://www.haascnc.com/service/codes-settings.type=gcode.machine=mill.value=G31.html
- Macro variables #5061 through #5066 are designated to store skip signal positions for each axis. For more information about these skip signal variables see the macro section of this manual.
- 
- Our macros mentions 
+This is a kind of branch from justin greys work. 
+https://github.com/toolpath/syil?fbclid=IwAR29LhDw04KI36xW8Zf0BnC7iv3UmjMIZeX47MPO97FfZMhhzNQVFXVgbTo
+
+This is just so that I can change the names to 
+ - Allow use from the Maker Macros folder
+ - Have added G68 into the post processor
+ - Turned off annoying "A" code at the end of a program that used to error out the machine
+ - Added the ability to 'pass through program calls' via the NC function in Fusion.
