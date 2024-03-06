@@ -10,7 +10,7 @@
 // Argument Z -> #26 expected Z
 
 // load probe config
-G65 "PROBECONFIG"
+M10801
 
 // CALCULATE EXTENDED WCS NUMBER
 // FIX is a round down function and MOD is modulo

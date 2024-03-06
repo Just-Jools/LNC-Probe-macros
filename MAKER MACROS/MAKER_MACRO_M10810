@@ -19,20 +19,20 @@ END_IF
 IF[#9>0]
  // call with I=2 to stop sub macro file i/o
  // calling our web macros the first time centers us
- G65 "PROBEXWEB" A#1 B#2 C#3 I2 Q0 R#18 S#19
- G65 "PROBEYWEB" A#1 B#2 C#3 I2 Q0 R#18 S#19
+ M10806 A#1 B#2 C#3 I2 Q0 R#18 S#19
+ M10807 A#1 B#2 C#3 I2 Q0 R#18 S#19
 
  // calling our web macros the second time gives an accurate center
- G65 "PROBEXWEB" A#1 B#2 C#3 I2 Q0 R#18 S#19
- G65 "PROBEYWEB" A#1 B#2 C#3 I2 Q0 R#18 S#19
+M10806 A#1 B#2 C#3 I2 Q0 R#18 S#19
+ M10807 A#1 B#2 C#3 I2 Q0 R#18 S#19
 ELSE
  // calling our web macros the first time centers us
- G65 "PROBEXWEB" A#1 B#2 C#3 I0 Q0 R#18 S#19
- G65 "PROBEYWEB" A#1 B#2 C#3 I0 Q0 R#18 S#19
+M10806 A#1 B#2 C#3 I0 Q0 R#18 S#19
+ M10807 A#1 B#2 C#3 I0 Q0 R#18 S#19
 
  // calling our web macros the second time gives an accurate center
- G65 "PROBEXWEB" A#1 B#2 C#3 I0 Q0 R#18 S#19
- G65 "PROBEYWEB" A#1 B#2 C#3 I0 Q0 R#18 S#19
+M10806 A#1 B#2 C#3 I0 Q0 R#18 S#19
+ M10807 A#1 B#2 C#3 I0 Q0 R#18 S#19
 END_IF
 
 // simple inspection reporting

@@ -8,7 +8,7 @@
 // Argument I -> #9 print results enabled by fusion360
 
 // load probe config
-G65 "PROBECONFIG"
+M10801
 
 // important local variables
 #111 = @104               // FAST PROBE SPEED PROVIDED BY PROBECONFIG MACRO

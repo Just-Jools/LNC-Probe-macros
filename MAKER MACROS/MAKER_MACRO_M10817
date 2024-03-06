@@ -12,7 +12,7 @@
 // Argument D -> #4 is the desired distance to probe part
 
 // load probe config
-G65 "PROBECONFIG"
+M10801
 
 // important local variables
 #100 = @100               // TOOL NUMBER PROVIDED BY PROBECONFIG MACRO
@@ -53,7 +53,7 @@ IF[R_SKIP[0,1] == 1]
 END_IF
 
 // PROBE PART IN X
-G65 "PROBEX" A#1 B#120*#4
+M10803 A#1 B#120*#4
 
 // MOVE BACK TO ORIGINAL XY LOCATION
 #126 = [#122-R_MACH_COOR[0,1]]
@@ -73,7 +73,7 @@ IF[R_SKIP[0,1] == 1]
 END_IF
 
 // PROBE PART IN Y
-G65 "PROBEY" A#1 B#121*#4
+M10804 A#1 B#121*#4
 
 // MOVE BACK TO ORIGINAL XY LOCATION
 #126 = [#122-R_MACH_COOR[0,1]]
