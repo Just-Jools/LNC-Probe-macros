@@ -12,69 +12,74 @@
 // #19 enable oversize check
 
 // load probe config
-M10801
+M10801;
 
 // important local variables
-#100 = @100             // TOOL NUMBER PROVIDED BY PROBECONFIG MACRO
-#111 = @104             // FAST PROBE SPEED PROVIDED BY PROBECONFIG MACRO
-#112 = @105             // SLOW PROBE SPEED PROVIDED BY PROBECONFIG MACRO
-#121 = @101             // TOOL DIAMETER PROVIDED BY PROBECONFIG MACRO
-#122 = @106             // WEB PROBE DISTANCE PROVIDED BY PROBECONFIG MACRO
-#108 = @108             // PROBE BACKOFF DISTANCE PROVIDED BY PROBECONFIG MACRO
-#2   = ABS[#2]
+#100 = @100;             // TOOL NUMBER PROVIDED BY PROBECONFIG MACRO
+#111 = @104;             // FAST PROBE SPEED PROVIDED BY PROBECONFIG MACRO
+#112 = @105;             // SLOW PROBE SPEED PROVIDED BY PROBECONFIG MACRO
+#121 = @101;             // TOOL DIAMETER PROVIDED BY PROBECONFIG MACRO
+#122 = @106;             // WEB PROBE DISTANCE PROVIDED BY PROBECONFIG MACRO
+#108 = @108 ;            // PROBE BACKOFF DISTANCE PROVIDED BY PROBECONFIG MACRO
+#2   = ABS[#2];
 
 
 // CALCULATE EXTENDED WCS NUMBER
 // FIX removes any decimal value
-#114 = [[#1 - FIX[#1]] * 10]
+#114 = [[#1 - FIX[#1]] * 10];
 
 // probe X starting from a negative offset and probing in the positive direction
 // MOVE TO -X SIDE OF THE PART, BEFORE STARTING TO PROBE
-G31 G91 P2 X-[#2/2+#122] F#111
+G31 G91 P2 X-[#2/2+#122] F#111;
+WAIT[0,1] ;      //JT This wait command is a 'make sure last line has finished before looking at the next line. Effectively cancelling lookahead. 0,1 means wait till you've arrived at the coordinates. 0,0 just means wait till the block is executed.
 
 // Error Checking
-IF[R_SKIP[0,1] == 0]
- ALARM["ERROR:  FAILED TO PROBE PART WITHIN SPECIFIED DISTANCE"]
- GOTO1 // go to line with N1 and quit
-END_IF
+IF[R_SKIP[0,1] == 0];
+ ALARM["ERROR:  FAILED TO PROBE PART WITHIN SPECIFIED DISTANCE"];
+ GOTO1; // go to line with N1 and quit
+END_IF;
 
-G91 G01 X[#108]                     // Back OFF
-FIX_CUT_OR_ON
-G31 G91 P2 X-[#108] F#112           // FEED UNTIL SKIP SLOW
-FIX_CUT_OR_OFF
-#104=R_SKIP[0,201]                  // GET FIRST MACHINE X COORDINATE
-G91 G01 X[#108]                     // Back off
+G91 G01 X[#108];                     // Back OFF
+FIX_CUT_OR_ON;
+G31 G91 P2 X-[#108] F#112;           // FEED UNTIL SKIP SLOW
+FIX_CUT_OR_OFF;
+WAIT[0,1]                           //JT make sure last line executed before continuing.
+#104=R_SKIP[0,201];                  // GET FIRST MACHINE X COORDINATE
+G91 G01 X[#108];                     // Back off
 
 
 
 // Move to opposite side of part
-G31 G91 P2 X[#2+#122-#108] F#111          // move to other side of the part, probe distance  away
+G31 G91 P2 X[#2+#122-#108] F#111;          // move to other side of the part, probe distance  away
+WAIT[0,1];               //JT make sure last line executed before continuing.
+
 
 // Error Checking
-IF[R_SKIP[0,1] == 0]
- ALARM["ERROR:  FAILED TO PROBE PART WITHIN SPECIFIED DISTANCE"]
- GOTO1 // go to line with N1 and quit
-END_IF
+IF[R_SKIP[0,1] == 0];
+ ALARM["ERROR:  FAILED TO PROBE PART WITHIN SPECIFIED DISTANCE"];
+ GOTO1; // go to line with N1 and quit
+END_IF;
 
-G91 G01 X[-#108]                    // BACK OFF
-FIX_CUT_OR_ON
-G31 G91 P2 X[#108] F#112            // FEED UNTIL SKIP SLOW
-FIX_CUT_OR_OFF
-#105=R_SKIP[0,201]                  // GET SECOND MACHINE X COORDINATE
-G91 G01 X[-#108]                    // BACK OFF
+G91 G01 X[-#108];                    // BACK OFF
+FIX_CUT_OR_ON;
+G31 G91 P2 X[#108] F#112;            // FEED UNTIL SKIP SLOW
+FIX_CUT_OR_OFF;
+WAIT[0,1];                           //JT make sure last line executed before continuing.
+#105=R_SKIP[0,201];                  // GET SECOND MACHINE X COORDINATE
+G91 G01 X[-#108];                    // BACK OFF
 
 // COMPUTE RELATIVE DISTANCE TO CENTER OF THE PART
-#106=[[#105-#104]/2]             // center point calculation
-#107= ABS[[#105-#104]]+#121      // calculate width of part: distance + diameter
-@998 = #107                      // save distance to a global variable for use with other macros
-G91 G01 X[-#106 + #108]          // MOVE TO CENTER OF THE PART
-#104=R_MACH_COOR[0,1]            // GET MACHINE Y COORDINATE
-#126=ABS[#107-#2]                // expected stock error
+#106=[[#105-#104]/2];             // center point calculation
+#107= ABS[[#105-#104]]+#121;      // calculate width of part: distance + diameter
+@998 = #107;                      // save distance to a global variable for use with other macros
+G91 G01 X[-#106 + #108];          // MOVE TO CENTER OF THE PART
+#104=R_MACH_COOR[0,1];            // GET MACHINE Y COORDINATE
+#126=ABS[#107-#2] ;               // expected stock error
 
 // if the tolorance is null, default it to global variable from the probe config
-IF[#18==#0]
- #18 = @110
-END_IF
+IF[#18==#0];
+ #18 = @110;
+END_IF;
 
 // oversized stock alarm if stock error is greater than tolorance
 IF[#19!=#0 && #126>#18 ]
@@ -95,6 +100,7 @@ ELSEIF [#114 < 1]
 ELSE
   W_G54EXP_COOR[0,#114,1,#104]
 END_IF
+WAIT[0,0];                           //JT make sure last line executed before continuing.
 
 // simple inspection reporting
 IF[#17>0]

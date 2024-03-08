@@ -7,36 +7,39 @@
 // #1 is the expected DIAMETER of the artifact
 
 // load probe config
-G65 "PROBECONFIG"
+M10801;
 
 // important local variables
-#100 = @100             // TOOL NUMBER PROVIDED BY PROBECONFIG MACRO
+#100 = @100;             // TOOL NUMBER PROVIDED BY PROBECONFIG MACRO
+WAIT[0,0];
 
 // Make sure diameter is zero when calibrating
-W_TOOL_DATA[0,#100,3,0]    // store tool diameter
+W_TOOL_DATA[0,#100,3,0];    // store tool diameter
+WAIT[0,0];
 
 // calling our slot macros the first time centers probe
-G65 "PROBEXSLOT" A0 B#1 Q0 
-G65 "PROBEYSLOT" A0 B#1 Q0 
+M10808 A0 B#1 Q0 ;
+M10809 A0 B#1 Q0 ;
 
 
 // calling our slot macros a second time gives an accurate inspection
-G65 "PROBEXSLOT" A0 B#1 Q0 
-G65 "PROBEYSLOT" A0 B#1 Q0
+M10808 A0 B#1 Q0 ;
+M10809 A0 B#1 Q0;
 
 // average Diameter calculation
 // @999 and @998 are set in the slot macros
 // this could be improved by keeping track of both X and Y diameters and controling probe orientation
-#131 = @998                   // measured ring guage diameter in x
-#132 = @999                   // measured ring guage diameter in y
-#133 = #1-#131                // error in x
-#134 = #1-#132                // error in y
-#135 = ABS[#133 + #134]/2     // average error
-W_TOOL_DATA[0,#100,3,#135]    // store tool diameter
+#131 = @998;                   // measured ring guage diameter in x
+#132 = @999 ;                  // measured ring guage diameter in y
+#133 = #1-#131  ;              // error in x
+#134 = #1-#132  ;              // error in y
+#135 = ABS[#133 + #134]/2 ;    // average error
+W_TOOL_DATA[0,#100,3,#135] ;   // store tool diameter
+WAIT[0,0];      //I think this makes sure that the control stops here and waits until that variable has been written above. 
 
 MENU_ADD["Ruby Diameter Set To: #135",""];  
 MENU["CALIBRATION REPORT","RESULTS","",1];
 
-G90
+G90;
 
-M99
+M99;
