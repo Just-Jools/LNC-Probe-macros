@@ -20,9 +20,9 @@ END_IF
 @103 = 2500;                        // FEED SPEED in/m, change to match your unit of choice, for metric users start at 2540mm
 @104 = 2500;                        // FAST PROBE SPEED in/m, change to match your unit of choice, for metric users start at 1270mm
 @105 = 50;                       // SLOW PROBE SPEED in/m, change to match your unit of choice, for metric users start at 63mm
-@106 = .5;                        // PROBE CLEARANCE DISTANCE in, change to match your unit of choice, for metric users start at 6mm
+@106 = 6;                        // PROBE CLEARANCE DISTANCE in, change to match your unit of choice, for metric users start at 6mm
 @107 = [R_TOOL_DATA[0,@100,203]]; // TOOL LENGHT OFFSET, DO NOT TOUCH!!!
-@108 = .125;                      // PROBE BACKOFF DISTANCE,change to match your unit of choice, for metric users start at 3mm
+@108 = 3;                      // PROBE BACKOFF DISTANCE,change to match your unit of choice, for metric users start at 3mm
 @109 = 69.250;                    // CALIBRATED LENGTH OF YOUR MASTER GAUGE TOOL
 @110 = .01;                       // DEFAULT PART TOLERANCE
 
