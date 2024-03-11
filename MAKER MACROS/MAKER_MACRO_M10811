@@ -13,6 +13,7 @@
 
 // load probe config 
 M10801
+WAIT[0,0]
 
 // CALCULATE EXTENDED WCS NUMBER 
 // FIX is a round down function and MOD is modulo 

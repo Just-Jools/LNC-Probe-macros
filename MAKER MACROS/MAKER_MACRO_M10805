@@ -11,6 +11,7 @@
 
 // load probe config
 M10801
+WAIT[0,0]
 
 // important local variables
 #111 = @104             // FAST PROBE SPEED PROVIDED BY PROBECONFIG MACRO
@@ -24,12 +25,15 @@ M10801
 
 // Check that the probe distance is negative
 IF[#2<0]
+WAIT[0,0]
 
 // Probe z the desired distance and at fast feed
 G31 G91 P2 Z[#2] F#111
+WAIT[0,0]
 
  // Check that the probe has triggered
  IF[R_SKIP[0,1] == 1]
+ WAIT[0,0]
 
   
 
@@ -37,6 +41,7 @@ G31 G91 P2 Z[#2] F#111
   FIX_CUT_OR_ON
   G31 G91 P2 Z[#2] F#112               // Probe X the desired distance at slow feed
   FIX_CUT_OR_OFF
+  WAIT[0,1]
   #104=R_SKIP[0,203]                   // GET MACHINE Z COORDINATE
   G91 G01 Z+[#108]                     // back off 1/4 the probing distance
   #106 = [#104-#105]                   // current position - probe length
@@ -48,11 +53,14 @@ G31 G91 P2 Z[#2] F#111
 
   // STORE Z OFFSET FOR WCS ZERO
   IF [#1 < 53 || #1 == #0 || #9 > 0]
+  WAIT[0,0]
     // DO NOT SET ANYTHING INTO WCS
   ELSEIF [#114 < 1]  
     W_G53G59_COOR[0,#1,3,#106]
+    WAIT[0,0]
   ELSE
     W_G54EXP_COOR[0,#114,3,#106]
+    WAIT[0,0]
   END_IF
 
 #150 = TIME[2];

@@ -13,7 +13,8 @@
 // #19 enable oversize check
 
 // load probe config
-M10801;
+M10801
+WAIT[0,0]
 
 // important local variables
 #100 = @100;             // TOOL NUMBER PROVIDED BY PROBECONFIG MACRO

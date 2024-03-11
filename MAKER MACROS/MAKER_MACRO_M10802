@@ -9,6 +9,7 @@
 
 // load probe config
 M10801
+WAIT[0,0]
 
 
 #100 = @100               // TOOL NUMBER PROVIDED BY PROBECONFIG MACRO
@@ -22,18 +23,25 @@ M10801
 G90
 IF[#24==#0 && #25==#0 && #26!=#0] // Z ONLY
     G31 P2 Z[#26] F#103  
+    WAIT[0,1]
 ELSEIF[#24!=#0 && #25==#0 && #26==#0] // X ONLY
-    G31 P2 X[#24] F#103  
+    G31 P2 X[#24] F#103 
+    WAIT[0,1] 
 ELSEIF[#24==#0 && #25!=#0 && #26==#0] // Y ONLY
     G31 P2 Y[#25] F#103  
+    WAIT[0,1]
 ELSEIF[#24!=#0 && #25==#0 && #26!=#0] // X + Z
     G31 P2 X[#24] Z[#26] F#103  
+    WAIT[0,1]
 ELSEIF[#24==#0 && #25!=#0 && #26!=#0] // Y + Z
     G31 P2 Y[#25] Z[#26] F#103  
+    WAIT[0,1]
 ELSEIF[#24!=#0 && #25!=#0 && #26==#0] // X + Y
     G31 P2 X[#24] Y[#25] F#103  
+    WAIT[0,1]
 ELSEIF[#24!=#0 && #25!=#0 && #26!=#0] // X+ Y + Z
     G31 P2 X[#24] Y[#25] Z[#26] F#103  
+    WAIT[0,1]
 END_IF
 
 // Error Checking

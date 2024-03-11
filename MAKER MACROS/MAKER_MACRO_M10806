@@ -33,6 +33,7 @@ M10801
 // probe X starting from a negative offset and probing in the positive direction
 // MOVE TO -X SIDE OF THE PART, BEFORE STARTING TO PROBE
 G31 G91 P2 X-[#2/2+#122] F#110
+WAIT[0,1]
 
 // Error Checking
 IF[R_SKIP[0,1] == 1]
@@ -43,6 +44,7 @@ END_IF
 
 // DROP TO PROBING HEIGHT
 G31 G91 P2 Z-#3 F#110  
+WAIT[0,1]
 
 // Error Checking
 IF[R_SKIP[0,1] == 1]
@@ -53,6 +55,7 @@ END_IF
 
 // Probe X on left side
 G31 G91 P2 X[#122+#108] F#111             // FEED PROBING DINSTANCE + BACK OFF UNTIL SKIP FAST
+WAIT[0,1]
 
 // Error Checking
 IF[R_SKIP[0,1] == 0]
@@ -65,6 +68,7 @@ END_IF
 G91 G01 X[-#108]                     // Back OFF
 FIX_CUT_OR_ON
 G31 G91 P2 X[#108] F#112             // FEED UNTIL SKIP SLOW
+WAIT[0,1]
 FIX_CUT_OR_OFF
 #104=R_SKIP[0,201]                   // GET FIRST MACHINE X COORDINATE
 G91 G01 X-[#108]                     // Back off
@@ -76,6 +80,7 @@ G31 G91 P2 Z#3 F#110                      // move above the part
 
 // Move to opposite side of part
 G31 G91 P2 X[#2+#122+#108] F#110          // move to other side of the part, probe distance  away
+WAIT[0,1]
 
 // Error Checking
 IF[R_SKIP[0,1] == 1]
@@ -85,6 +90,7 @@ END_IF
 
 // Drop to Probing Height
 G31 G91 P2 Z-#3 F#110             // move back down to probe height
+WAIT[0,1]
 
 // Error Checking
 IF[R_SKIP[0,1] == 1]
@@ -94,6 +100,7 @@ END_IF
 
 // Probe X on right side
 G31 G91 P2 X[-1*[#122+#108]] F#111      // FEED PROBING DINSTANCE + BACK OFF UNTIL SKIP FAST
+WAIT[0,1]
 
 // Error Checking
 IF[R_SKIP[0,1] == 0]
@@ -104,6 +111,7 @@ END_IF
 G91 G01 X[#108]                      // BACK OFF
 FIX_CUT_OR_ON
 G31 G91 P2 X[-#108] F#112            // FEED UNTIL SKIP SLOW
+WAIT[0,1]
 FIX_CUT_OR_OFF
 #105=R_SKIP[0,201]                   // GET SECOND MACHINE X COORDINATE
 G91 G01 X[#108] F#110                // BACK OFF
