@@ -23,7 +23,7 @@ WAIT[0,0]
 #111 = @104             // FAST PROBE SPEED PROVIDED BY PROBECONFIG MACRO)
 #112 = @105             // SLOW PROBE SPEED PROVIDED BY PROBECONFIG MACRO)
 #121 = @101             // TOOL DIAMETER PROVIDED BY PROBECONFIG MACRO)
-#122 = @106             // WEB PROBE DISTANCE PROVIDED BY PROBECONFIG MACRO)
+#122 = #4             // Probe clearance from fusion passed through via the "D" pass through.      
 #108 = @108             // PROBE BACKOFF DISTANCE PROVIDED BY PROBECONFIG MACRO)
 #2   = ABS[#2]
 #3   = ABS[#3]
@@ -31,6 +31,9 @@ WAIT[0,0]
 // CALCULATE EXTENDED WCS NUMBER
 // FIX removes any decimal value
 #114 = [[#1 - FIX[#1]] * 10] 
+
+//Need to read the absolute Y coordinate and register it as a variable #123
+#123= R_ABS_COOR(0,2);
 
 // probe Y starting from a negative offset and probing in the positive direction)
 // MOVE TO -Y SIDE OF THE PART, BEFORE STARTING TO PROBE)
@@ -54,7 +57,7 @@ IF[R_SKIP[0,1] == 1]
 END_IF
 
 // probe y from the front
-G31 G91 P2 Y[#122+#108] F#111       // FEED PROBING DINSTANCE + BACK OFF UNTIL SKIP FAST 
+G31 G91 P2 Y[#122+#108+#5] F#111       // FEED PROBING DINSTANCE + BACK OFF UNTIL SKIP FAST 
 WAIT[0,1]
 
 // Error Checking
@@ -75,8 +78,12 @@ G91 G01 Y[-#108]                    // back off
 G31 G91 P2 Z#3 F#110             // move above the part
 WAIT[0,1]
 
+
+//JT return to center using the abs x coordinate we saved before in #123
+G90 G00 Y#123
+
 // move to the opposite side of the part
-G31 G91 P2 Y[#2+#122+#108] F#110  // move to other side of the part,pobe distance  away
+G31 G91 P2 Y[#2/2+#122+#108] F#110  // move to other side of the part,pobe distance  away
 WAIT[0,1]
 
 // Error Checking
@@ -96,7 +103,7 @@ IF[R_SKIP[0,1] == 1]
 END_IF
 
 // probe back side of part
-G31 G91 P2 Y[-1*[#122+#108]] F#111      // FEED PROBING DINSTANCE + BACK OFF UNTIL SKIP FAST 
+G31 G91 P2 Y[-1*[#122+#108+#5]] F#111      // FEED PROBING DINSTANCE + BACK OFF UNTIL SKIP FAST 
 WAIT[0,1]
 
 // Error Checking

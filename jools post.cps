@@ -1725,7 +1725,8 @@ function onCyclePoint(x, y, z) {
       EXPECTED_Z = "Z"+xyzFormat.format(cycle.stock - cycle.depth);
       DISTANCE   = approach(cycle.approach1)*(cycle.probeClearance + tool.diameter / 2 + cycle.probeOvertravel)
       B_ARG      = "B"+xyzFormat.format(DISTANCE)
-
+      
+        
       writeBlock(mFormat.format(10803), WCS_CODE[7], WCS_CODE[8], B_ARG);    //JT macro call
      // writeBlock(gFormat.format(65), '"CHECKPOSITIONALTOLERANCE"', WCS_CODE[8], WCS_CODE[9], WCS_CODE[3],'V1', EXPECTED_X, EXPECTED_Y, EXPECTED_Z);   //JT turning off 
       break;
@@ -1740,8 +1741,9 @@ function onCyclePoint(x, y, z) {
       EXPECTED_Y = yOutput.format(y + approach(cycle.approach1)*(cycle.probeClearance + tool.diameter / 2));
       EXPECTED_X = xOutput.format(x + approach(cycle.approach1)*(cycle.probeClearance + tool.diameter / 2));
       EXPECTED_Z = "Z"+xyzFormat.format(cycle.stock - cycle.depth);
-      DISTANCE   = approach(cycle.approach1)*(cycle.probeClearance + tool.diameter / 2 + cycle.probeOvertravel)
-      B_ARG      = "B"+xyzFormat.format(DISTANCE)
+      DISTANCE   = approach(cycle.approach1)*(cycle.probeClearance + tool.diameter / 2 + cycle.probeOvertravel)   //JT changed to the below line
+      B_ARG = "B" + xyzFormat.format(DISTANCE)
+      
 
       writeBlock(mFormat.format(10804), WCS_CODE[7], WCS_CODE[8], B_ARG);
       //writeBlock(gFormat.format(65), '"CHECKPOSITIONALTOLERANCE"', WCS_CODE[8], WCS_CODE[9], WCS_CODE[3], 'V2', EXPECTED_X, EXPECTED_Y, EXPECTED_Z);    //JT turning off 
@@ -1765,16 +1767,28 @@ function onCyclePoint(x, y, z) {
       break;
     
     
-      case "probing-x-wall":
+      case "probing-x-wall":o_arg
       forceXYZ();
       // writeBlock(gFormat.format(31), "P2 ", zOutput.format(z), "F50");  // protected positioning move 
       writeBlock(mFormat.format(10802), zOutput.format(z));   //JT macro call
 
       WCS_CODE  = getProbingArguments(cycle, probeWorkOffsetCode);
-      WEB_WIDTH ="B"+xyzFormat.format(cycle.width1)
+        WEB_WIDTH = "B" + xyzFormat.format(cycle.width1)
+        overtavel="D" + xyzFormat.format(cycle.probeOvertravel)   //JT
       Z_DROP    = "C"+xyzFormat.format(cycle.depth),
-
-      writeBlock(mFormat.format(10806), WCS_CODE[7], WCS_CODE[8], WEB_WIDTH, Z_DROP, "Q0", WCS_CODE[2]);
+      
+        
+      writeBlock(
+      mFormat.format(10806),
+      WCS_CODE[7],
+      WCS_CODE[8],
+      WEB_WIDTH,
+      Z_DROP,
+      overtavel,    //JT
+      "Q0",
+      WCS_CODE[2]
+      
+      );
       break;
     
     
@@ -1786,7 +1800,8 @@ function onCyclePoint(x, y, z) {
       WCS_CODE  = getProbingArguments(cycle, probeWorkOffsetCode);
       WEB_WIDTH ="B"+xyzFormat.format(cycle.width1)
       Z_DROP    = "C"+xyzFormat.format(cycle.depth),
-
+      
+        
       writeBlock(mFormat.format(10807), WCS_CODE[7], WCS_CODE[8], WEB_WIDTH, Z_DROP, "Q0", WCS_CODE[2]);
       break;
     
@@ -1799,7 +1814,16 @@ function onCyclePoint(x, y, z) {
       WCS_CODE   = getProbingArguments(cycle, probeWorkOffsetCode);
       SLOT_WIDTH ="B"+xyzFormat.format(cycle.width1);
       
-      writeBlock(mFormat.format(10808), WCS_CODE[7], WCS_CODE[8], SLOT_WIDTH, "Q0", WCS_CODE[2]);
+        writeBlock(
+          mFormat.format(10808),
+          WCS_CODE[7],
+          WCS_CODE[8],
+          SLOT_WIDTH,
+          "D" + xyzFormat.format(cycle.probeClearance + tool.diameter / 2), //Probe Clearance
+          "E" + xyzFormat.format(cycle.probeOvertravel),//Probe Overtravelk
+          "Q0",
+          WCS_CODE[2]
+        );
       break;
     
     
@@ -1825,7 +1849,15 @@ function onCyclePoint(x, y, z) {
       WCS_CODE   = getProbingArguments(cycle, probeWorkOffsetCode);
       SLOT_WIDTH ="B"+xyzFormat.format(cycle.width1);
 
-      writeBlock(mFormat.format(10809), WCS_CODE[7], WCS_CODE[8], SLOT_WIDTH, "Q0", WCS_CODE[2]);
+        writeBlock(
+          mFormat.format(10809),
+          WCS_CODE[7],
+          WCS_CODE[8],
+          SLOT_WIDTH,
+          "D" + xyzFormat.format(cycle.probeClearance + tool.diameter / 2), //Probe Clearance
+          "E" + xyzFormat.format(cycle.probeOvertravel),//Probe Overtravelk
+          "Q0",
+          WCS_CODE[2]);
       break;
     
     
@@ -1855,8 +1887,21 @@ function onCyclePoint(x, y, z) {
       EXPECTED_Y    = yOutput.format(y);
       EXPECTED_Z    = "Z"+xyzFormat.format(cycle.stock - cycle.depth);
 
-      writeBlock(mFormat.format(10810), WCS_CODE[7], WCS_CODE[8], BOSS_DIAMETER, Z_DROP, "Q0", WCS_CODE[2]);
-      //writeBlock(gFormat.format(65), '"CHECKPOSITIONALTOLERANCE"', WCS_CODE[8], WCS_CODE[9], WCS_CODE[3],'V4', EXPECTED_X, EXPECTED_Y, EXPECTED_Z);     //JT 
+        writeBlock(
+          mFormat.format(10810),
+          WCS_CODE[7],
+          WCS_CODE[8],
+          BOSS_DIAMETER,
+          "C"+xyzFormat.format(cycle.depth),            //Z depth
+          "D" + xyzFormat.format(cycle.probeClearance + tool.diameter / 2), //Probe Clearance
+          "E" + xyzFormat.format(cycle.probeOvertravel),//Probe Overtravelk
+          "Q0",
+          WCS_CODE[2]
+        );
+      
+      
+        
+        //writeBlock(gFormat.format(65), '"CHECKPOSITIONALTOLERANCE"', WCS_CODE[8], WCS_CODE[9], WCS_CODE[3],'V4', EXPECTED_X, EXPECTED_Y, EXPECTED_Z);     //JT
       if(properties.EnableZeroPointCompensation == true && WCS_CODE[7] == null){
       writeBlock(mFormat.format(10814), WCS_CODE[8], WCS_CODE[9], EXPECTED_X, EXPECTED_Y, EXPECTED_Z);
       }
@@ -1891,7 +1936,17 @@ function onCyclePoint(x, y, z) {
       EXPECTED_Y    = yOutput.format(y);
       EXPECTED_Z    = "Z"+xyzFormat.format(cycle.stock - cycle.depth);
 
-      writeBlock(mFormat.format(10812), WCS_CODE[7], WCS_CODE[8], BORE_DIAMETER, "Q0", WCS_CODE[2]);
+        writeBlock(
+          mFormat.format(10812),
+          WCS_CODE[7],
+          WCS_CODE[8],
+          BORE_DIAMETER,
+          "D" + xyzFormat.format(cycle.probeClearance + tool.diameter / 2), //Probe Clearance
+          "E" + xyzFormat.format(cycle.probeOvertravel),//Probe Overtravelk
+          "Q0",
+          WCS_CODE[2]
+        );
+
       //writeBlock(gFormat.format(65), '"CHECKPOSITIONALTOLERANCE"', WCS_CODE[8], WCS_CODE[9], WCS_CODE[3],'V4', EXPECTED_X, EXPECTED_Y, EXPECTED_Z);   //JT turning off 
       if(properties.EnableZeroPointCompensation == true && WCS_CODE[7] == null){
       writeBlock(mFormat.format(10814), WCS_CODE[8], WCS_CODE[9], EXPECTED_X, EXPECTED_Y, EXPECTED_Z);
@@ -1942,7 +1997,17 @@ function onCyclePoint(x, y, z) {
       EXPECTED_Y = yOutput.format(y);
       EXPECTED_Z = "Z"+xyzFormat.format(cycle.stock - cycle.depth);
 
-          writeBlock(mFormat.format(10813), WCS_CODE[7], WCS_CODE[8], XWEB_WIDTH, YWEB_WIDTH, "Q0", WCS_CODE[2]);//JT
+        writeBlock(
+          mFormat.format(10813),
+          WCS_CODE[7],
+          WCS_CODE[8],
+          XWEB_WIDTH,
+          YWEB_WIDTH,
+          "D" + xyzFormat.format(cycle.probeClearance + tool.diameter / 2), //Probe Clearance
+          "E" + xyzFormat.format(cycle.probeOvertravel),//Probe Overtravelk
+          "Q0",
+          WCS_CODE[2]
+        );                  //JT
       if(properties.EnableZeroPointCompensation == true && WCS_CODE[7] == null){
       writeBlock(mFormat.format(10814), WCS_CODE[8], WCS_CODE[9], EXPECTED_X, EXPECTED_Y, EXPECTED_Z);
       }
@@ -1962,7 +2027,19 @@ function onCyclePoint(x, y, z) {
       EXPECTED_Z = "Z"+xyzFormat.format(cycle.stock - cycle.depth);
       Z_DROP     = "D"+xyzFormat.format(cycle.depth);
      
-      writeBlock(mFormat.format(10815), WCS_CODE[7], WCS_CODE[8], XWEB_WIDTH, YWEB_WIDTH, Z_DROP, "Q0", WCS_CODE[2]);
+        writeBlock(
+          mFormat.format(10815),
+          WCS_CODE[7],
+          WCS_CODE[8],
+          XWEB_WIDTH,
+          YWEB_WIDTH,
+          Z_DROP,
+          "D" + xyzFormat.format(cycle.probeClearance + tool.diameter / 2), //Probe Clearance
+          "E" + xyzFormat.format(cycle.probeOvertravel),//Probe Overtravelk
+          "Q0",
+          WCS_CODE[2]
+        );
+
       //writeBlock(gFormat.format(65), '"CHECKPOSITIONALTOLERANCE"', WCS_CODE[8], WCS_CODE[9], WCS_CODE[3],'V4', EXPECTED_X, EXPECTED_Y, EXPECTED_Z);     //JT turning off 
       if(properties.EnableZeroPointCompensation == true && WCS_CODE[7] == null){
       writeBlock(mFormat.format(10814), WCS_CODE[8], WCS_CODE[9], EXPECTED_X, EXPECTED_Y, EXPECTED_Z);

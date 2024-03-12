@@ -22,7 +22,7 @@ WAIT[0,0]
 #111 = @104;             // FAST PROBE SPEED PROVIDED BY PROBECONFIG MACRO
 #112 = @105;             // SLOW PROBE SPEED PROVIDED BY PROBECONFIG MACRO
 #121 = @101;             // TOOL DIAMETER PROVIDED BY PROBECONFIG MACRO
-#122 = @106;             // WEB PROBE DISTANCE PROVIDED BY PROBECONFIG MACRO
+#122 = #4;             // JT adding fusion macro pass through
 #108 = @108;             // PROBE BACKOFF DISTANCE PROVIDED BY PROBECONFIG MACRO
 #2   = ABS[#2];
 
@@ -32,7 +32,7 @@ WAIT[0,0]
 
 // probe Y starting from a negative offset and probing in the positive direction
 // MOVE TO -Y SIDE OF THE PART, BEFORE STARTING TO PROBE
-G31 G91 P2 Y-[#2/2+#122] F#111
+G31 G91 P2 Y-[#2/2+#5] F#111
 WAIT[0,1];                           //JT make sure last line executed before continuing.
 
 // Error Checking
@@ -54,7 +54,7 @@ G91 G01 Y[#108];                    // back off
 
 
 // move to the opposite side of the part
-G31 G91 P2 Y[#2+#122-#108] F#111  // move to other side of the part,pobe distance  away
+G31 G91 P2 Y[#2+#5-#108] F#111  // move to other side of the part,pobe distance  away
 WAIT[0,1];                           //JT make sure last line executed before continuing.
 
 

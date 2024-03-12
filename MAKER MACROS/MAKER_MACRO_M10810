@@ -11,28 +11,34 @@
 // #18 oversize tolorance
 // #19 enable oversize check
 
+
+//Save passed through values "a" "b" "c" "d" etc as global variables so they can be used in submacros 
+
+
 // safety check for inspection variable
 IF[#9 == #0]
  #9 = 0
 END_IF
 
+
+//JT notes the below #2 #3 etc are passed through from the post processor and what it outputs. I added the D and E variables for probe clearance and overtravel.
 IF[#9>0]
  // call with I=2 to stop sub macro file i/o
  // calling our web macros the first time centers us
- M10806 A#1 B#2 C#3 I2 Q0 R#18 S#19
- M10807 A#1 B#2 C#3 I2 Q0 R#18 S#19
+ M10806 A#1 B#2 C#3 D#4 E#5 I2 Q0 R#18 S#19
+ M10807 A#1 B#2 C#3 D#4 E#5 I2 Q0 R#18 S#19
 
  // calling our web macros the second time gives an accurate center
-M10806 A#1 B#2 C#3 I2 Q0 R#18 S#19
- M10807 A#1 B#2 C#3 I2 Q0 R#18 S#19
+M10806 A#1 B#2 C#3 D#4 E#5 I2 Q0 R#18 S#19
+ M10807 A#1 B#2 C#3 D#4 E#5 I2 Q0 R#18 S#19
 ELSE
  // calling our web macros the first time centers us
-M10806 A#1 B#2 C#3 I0 Q0 R#18 S#19
- M10807 A#1 B#2 C#3 I0 Q0 R#18 S#19
+M10806 A#1 B#2 C#3 D#4 E#5 I0 Q0 R#18 S#19
+ M10807 A#1 B#2 C#3 D#4 E#5 I0 Q0 R#18 S#19
 
  // calling our web macros the second time gives an accurate center
-M10806 A#1 B#2 C#3 I0 Q0 R#18 S#19
- M10807 A#1 B#2 C#3 I0 Q0 R#18 S#19
+M10806 A#1 B#2 C#3 D#4 E#5 I0 Q0 R#18 S#19
+ M10807 A#1 B#2 C#3 D#4 E#5 I0 Q0 R#18 S#19
 END_IF
 
 // simple inspection reporting

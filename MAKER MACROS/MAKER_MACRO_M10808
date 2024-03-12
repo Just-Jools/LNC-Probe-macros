@@ -20,7 +20,7 @@ WAIT[0,0]
 #111 = @104;             // FAST PROBE SPEED PROVIDED BY PROBECONFIG MACRO
 #112 = @105;             // SLOW PROBE SPEED PROVIDED BY PROBECONFIG MACRO
 #121 = @101;             // TOOL DIAMETER PROVIDED BY PROBECONFIG MACRO
-#122 = @106;             // WEB PROBE DISTANCE PROVIDED BY PROBECONFIG MACRO
+#122 = #4;             // WEB PROBE DISTANCE PROVIDED BY PROBECONFIG MACRO
 #108 = @108 ;            // PROBE BACKOFF DISTANCE PROVIDED BY PROBECONFIG MACRO
 #2   = ABS[#2];
 
@@ -31,7 +31,7 @@ WAIT[0,0]
 
 // probe X starting from a negative offset and probing in the positive direction
 // MOVE TO -X SIDE OF THE PART, BEFORE STARTING TO PROBE
-G31 G91 P2 X-[#2/2+#122] F#111;
+G31 G91 P2 X-[#2/2+#5] F#111;
 WAIT[0,1] ;      //JT This wait command is a 'make sure last line has finished before looking at the next line. Effectively cancelling lookahead. 0,1 means wait till you've arrived at the coordinates. 0,0 just means wait till the block is executed.
 
 // Error Checking
@@ -51,7 +51,7 @@ G91 G01 X[#108];                     // Back off
 
 
 // Move to opposite side of part
-G31 G91 P2 X[#2+#122-#108] F#111;          // move to other side of the part, probe distance  away
+G31 G91 P2 X[#2+#5-#108] F#111;          // move to other side of the part, probe distance  away
 WAIT[0,1];               //JT make sure last line executed before continuing.
 
 

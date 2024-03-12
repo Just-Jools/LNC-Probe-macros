@@ -22,11 +22,11 @@ END_IF
 
 IF[#9>0]
 // call with I=2 to stop sub macro file i/o
- M10806 A#1 B#2 C#4 I2 Q0 R#18 S#19 
- M10807 A#1 B#3 C#4 I2 Q0 R#18 S#19 
+ M10806 A#1 B#2 C#4 D#4 E#5 I2 Q0 R#18 S#19 
+ M10807 A#1 B#3 C#4 D#4 E#5 I2 Q0 R#18 S#19 
 ELSE
- M10806 A#1 B#2 C#4 I0 Q0 R#18 S#19 
- M10807 A#1 B#3 C#4 I0 Q0 R#18 S#19 
+ M10806 A#1 B#2 C#4 D#4 E#5 I0 Q0 R#18 S#19 
+ M10807 A#1 B#3 C#4 D#4 E#5 I0 Q0 R#18 S#19 
 END_IF
 
 // simple inspection reporting

@@ -23,20 +23,20 @@ END_IF
 IF[#9>0]
  // call with I=2 to stop sub macro file i/o
  // calling our slot macros the first time centers probe
- M10808 A#1 B#2 I2 Q0 R#18 S#19
- M10809 A#1 B#2 I2 Q0 R#18 S#19
+ M10808 A#1 B#2 D#4 E#5 I2 Q0 R#18 S#19
+ M10809 A#1 B#2 D#4 E#5 I2 Q0 R#18 S#19
 
  // calling our slot macros a second time gives an accurate inspection
- M10808 A#1 B#2 I2 Q0 R#18 S#19
- M10809 A#1 B#2 I2 Q0 R#18 S#19
+ M10808 A#1 B#2 D#4 E#5 I2 Q0 R#18 S#19
+ M10809 A#1 B#2 D#4 E#5 I2 Q0 R#18 S#19
 ELSE
  // calling our slot macros the first time centers probe
- M10808 A#1 B#2 I0 Q0 R#18 S#19
- M10809 A#1 B#2 I0 Q0 R#18 S#19
+ M10808 A#1 B#2 D#4 E#5 I0 Q0 R#18 S#19
+ M10809 A#1 B#2 D#4 E#5 I0 Q0 R#18 S#19
 
  // calling our slot macros a second time gives an accurate inspection
- M10808 A#1 B#2 I0 Q0 R#18 S#19
- M10809 A#1 B#2 I0 Q0 R#18 S#19
+ M10808 A#1 B#2 D#4 E#5 I0 Q0 R#18 S#19
+ M10809 A#1 B#2 D#4 E#5 I0 Q0 R#18 S#19
 END_IF
 
 

@@ -24,11 +24,11 @@ END_IF
 
 IF[#9>0]
 // call with I=2 to stop sub macro file i/o;
- M10808 A#1 B#2 Q0 I2 R#18 S#19 
- M10809 A#1 B#3 Q0 I2 R#18 S#19 
+ G65 "PROBEXSLOT" A#1 B#2 D#4 E#5 Q0 I2 R#18 S#19 
+ G65 "PROBEYSLOT" A#1 B#3 D#4 E#5 Q0 I2 R#18 S#19 
 ELSE
- M10808 A#1 B#2 Q0 I0 R#18 S#19 
- M10809 A#1 B#3 Q0 I0 R#18 S#19 
+ G65 "PROBEXSLOT" A#1 B#2 D#4 E#5 Q0 I0 R#18 S#19 
+ G65 "PROBEYSLOT" A#1 B#3 D#4 E#5 Q0 I0 R#18 S#19 
 END_IF
 
 // simple inspection reporting;

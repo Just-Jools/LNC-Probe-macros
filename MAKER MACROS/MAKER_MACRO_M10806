@@ -20,7 +20,7 @@ M10801
 #111 = @104             // FAST PROBE SPEED PROVIDED BY PROBECONFIG MACRO
 #112 = @105             // SLOW PROBE SPEED PROVIDED BY PROBECONFIG MACRO
 #121 = @101             // TOOL DIAMETER PROVIDED BY PROBECONFIG MACRO
-#122 = @106             // WEB PROBE DISTANCE PROVIDED BY PROBECONFIG MACRO
+#122 = #4             // Probe clearance. Passed from fusion to here via M10810 (or whichever macro calls this.) using the "D" pass through
 #108 = @108             // PROBE BACKOFF DISTANCE PROVIDED BY PROBECONFIG MACRO
 #2   = ABS[#2]
 #3   = ABS[#3]
@@ -30,6 +30,10 @@ M10801
 // CALCULATE EXTENDED WCS NUMBER
 // FIX removes any decimal value
 #114 = [[#1 - FIX[#1]] * 10]
+
+
+//Need to read the absolute X coordinate and register it as a variable #123
+#123= R_ABS_COOR(0,1);
 
 // probe X starting from a negative offset and probing in the positive direction
 // MOVE TO -X SIDE OF THE PART, BEFORE STARTING TO PROBE
@@ -55,7 +59,7 @@ END_IF
 
 
 // Probe X on left side
-G31 G91 P2 X[#122+#108+40] F#111             // FEED PROBING DINSTANCE + BACK OFF UNTIL SKIP FAST 
+G31 G91 P2 X[#122+#108+#5] F#111             // FEED PROBING DINSTANCE + BACK OFF UNTIL SKIP FAST #5 is E passed through from the post via pass throughs.
 WAIT[0,1]
 
 // Error Checking
@@ -79,8 +83,11 @@ G91 G01 X-[#108]                     // Back off
 // lift Z after probe
 G31 G91 P2 Z#3 F#110                      // move above the part
 
+//JT return to center using the abs x coordinate we saved before in #123
+G90 G00 X#123
+
 // Move to opposite side of part
-G31 G91 P2 X[#2+#122+#108] F#110          // move to other side of the part, probe distance  away
+G31 G91 P2 X[#2/2+#122+#108] F#110          // move to other side of the part, probe distance  away JT added the divide by two as I've added a return to center above.
 WAIT[0,1]
 
 // Error Checking
@@ -100,7 +107,7 @@ IF[R_SKIP[0,1] == 1]
 END_IF
 
 // Probe X on right side
-G31 G91 P2 X[-1*[#122+#108+40]] F#111      // FEED PROBING DINSTANCE + BACK OFF UNTIL SKIP FAST
+G31 G91 P2 X[-1*[#122+#108+#5]] F#111      // FEED PROBING DINSTANCE + BACK OFF UNTIL SKIP FAST //JT adding overtravel #5 passing through via "E".
 WAIT[0,1]
 
 // Error Checking

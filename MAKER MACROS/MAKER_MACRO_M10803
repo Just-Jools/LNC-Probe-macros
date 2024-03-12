@@ -16,7 +16,7 @@ WAIT[0,0]
 #111 = @104               // FAST PROBE SPEED PROVIDED BY PROBECONFIG MACRO
 #112 = @105               // SLOW PROBE SPEED PROVIDED BY PROBECONFIG MACRO
 #105 = @102               // TOOL RADIUS PROVIDED BY PROBECONFIG MACRO
-#108 = @108*[#2/ABS[#2]]  // PROBE BACKOFF DISTANCE PROVIDED BY PROBECONFIG MACRO * the sign -- +1 or -1 -- of probe distance
+#108 = @108*[#2/ABS[#2]]  // PROBE BACKOFF DISTANCE PROVIDED BY PROBECONFIG MACRO * the sign -- +1 or -1 -- of probe distance  JT leave this alone. Ths can be arbitrary.
 
 
 // CALCULATE EXTENDED WCS NUMBER
@@ -24,7 +24,7 @@ WAIT[0,0]
 #114 = MOD[#1,FIX[#1]]*10 
 
 // Probe X the desired distance and at fast feed
-G31 G91 P2 X[#2] F#111     
+G31 G91 P2 X[#2] F#111                            //JT#2 is passed through as the "B" value from the post processor
 WAIT[0,1]   
 
 // Check that the probe has triggered
