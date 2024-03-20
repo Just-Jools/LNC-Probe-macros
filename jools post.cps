@@ -79,14 +79,50 @@ properties = {
   };
 
 // user-defined property definitions
+
 propertyDefinitions = {
-  writeMachine: {title:"Write machine", description:"Output the machine settings in the header of the code.", group:0, type:"boolean"},
-  writeTools: {title:"Write tool list", description:"Output a tool list in the header of the code.", group:0, type:"boolean"},
-  preloadTool: {title:"Preload tool", description:"Preloads the next tool at a tool change (if any).", group:1, type:"boolean"},
-  showSequenceNumbers: {title:"Use sequence numbers", description:"Use sequence numbers for each block of outputted code.", group:1, type:"boolean"},
-  sequenceNumberStart: {title:"Start sequence number", description:"The number at which to start the sequence numbers.", group:1, type:"integer"},
-  sequenceNumberIncrement: {title:"Sequence number increment", description:"The amount by which the sequence number is incremented by in each block.", group:1, type:"integer"},
-  optionalStop: {title:"Optional stop", description:"Outputs optional stop code during when necessary in the code.", type:"boolean"},
+  writeMachine: {
+    title: "Write machine",
+    description: "Output the machine settings in the header of the code.",
+    group: "Basics",
+    type: "boolean"
+  },
+
+  writeTools: {
+    title: "Write tool list",
+    description: "Output a tool list in the header of the code.",
+    group: "Basics",
+    type: "boolean"
+  },
+  
+  
+  preloadTool: {
+    title: "Preload tool",
+    description: "Preloads the next tool at a tool change (if any).",
+    group: "Numbering",
+    type: "boolean"
+  },
+
+  showSequenceNumbers: {
+    title: "Use sequence numbers",
+    description: "Use sequence numbers for each block of outputted code.",
+    group: "Numbering",
+    type: "boolean"
+  },
+  sequenceNumberStart: {
+    title: "Start sequence number",
+    description: "The number at which to start the sequence numbers.",
+    group: "Numbering",
+    type: "integer"
+  },
+  sequenceNumberIncrement: {
+    title: "Sequence number increment",
+    description: "The amount by which the sequence number is incremented by in each block.",
+    group: "Numbering",
+    type: "integer"
+  },
+  
+  optionalStop: { title: "Optional stop", description: "Outputs optional stop code during when necessary in the code.", type: "boolean" },
   o8: {title:"8 Digit program number", description:"Specifies that an 8 digit program number is needed.", type:"boolean"},
   separateWordsWithSpace: {title:"Separate words with space", description:"Adds spaces between words if 'yes' is selected.", type:"boolean"},
   allow3DArcs: {title:"Allow 3D arcs", description:"Specifies whether 3D circular arcs are allowed.", type:"boolean"},
@@ -101,6 +137,7 @@ propertyDefinitions = {
   useFilesForSubprograms: {title:"Use files for subroutines", description:"If enabled, subroutines will be saved as individual files.", type:"boolean"},
   useSubroutinePatterns: {title:"Use subroutine patterns", description:"Generates subroutines for patterned operation.", type:"boolean"},
   useSubroutineCycles: {title:"Use subroutine cycles", description:"Generates subroutines for cycle operations on same holes.", type:"boolean"},
+  
   useRigidTapping: {
     title: "Use rigid tapping",
     description: "Select 'Yes' to enable, 'No' to disable, or 'Without spindle direction' to enable rigid tapping without outputting the spindle direction block.",
@@ -111,22 +148,114 @@ propertyDefinitions = {
       {title:"Without spindle direction", id:"without"}
     ]
   },
-  multiaxislocking: {title:"Use M10/M11 Rotational Axis Lock", description:"Unlock and Lock A, B and C Axis using M10/M11 Command.", group:2, type:"boolean"},
-  Coordinaterotation: { title: "Use G68", description: "Turns on G68 to out put roatation.", group: 6, type: "boolean" }, //JT4/mar/2024
-  ProbeIgnoreg68: {title:"Probe to ignore G68 rotation commands", description:"Makes the probe use a normal coordinate system. So you can probe then use the probes output to G68 shift.", group:6, type:"boolean"},//JT 4/mar/24
-  Ra: { title: "Angle to rotate", description: "Angle to rotate using G68", group: 6, type: "number" },//JT 4/mar/24
-  CORX: { title: "X Center of rotation", description: "X Coordinate to rotate around using G68", group: 6, type: "number" },//JT 4/mar/24
-  CORY: {title:"Y center of rotation", description:"Y Coordinate to rotate using G68", group:6, type:"number"},//JT 4/mar/24
-  useAAxis: {title:"Output A Axis", description:"Select 'No' for 3 axis machining only, without A00.", group:2, type:"boolean"},
-  useInverseTime: {title:"Use Inverse Time Feedrate", description:"Use Inverse Time Feed On Multi Axis Moves. Select 'No' for FPM/DPM Feedrates.", group:2, type:"boolean"},
-  useG53saferetract: {title:"Use G53 for Retract and Home", description:"Use G53 machine coordinates instead of G28 for retraction and homing.", group:3, type:"boolean"},
-  g53homeX: {title:"G53 X Home - Machine Coordinate", description:"Machine Coordinate for G53 Home on X Axis.", group:3, type:"number"},
-  g53homeY: {title:"G53 Y Home - Machine Coordinate", description:"Machine Coordinate for G53 Home on Y Axis.", group:3, type:"number"},
+  multiaxislocking: {
+    title: "Use M10/M11 Rotational Axis Lock",
+    description: "Unlock and Lock A, B and C Axis using M10/M11 Command.",
+    group: "A-Axis",
+    type: "boolean"
+  },
+  
+  Coordinaterotation: {
+    title: "Use G68",
+    description: "Turns on G68 to out put roatation.",
+    group: "Coordinate rotation",
+    type: "boolean"
+  }, //JT4/mar/2024
+  
+  ProbeIgnoreg68: {
+    title: "Probe to ignore G68 rotation commands",
+    description: "Makes the probe use a normal coordinate system. So you can probe then use the probes output to G68 shift.",
+    group: "Coordinate rotation",
+    type: "boolean"
+  },//JT 4/mar/24
+  
+  Ra: {
+    title: "Angle to rotate",
+    description: "Angle to rotate using G68",
+    group: "Coordinate rotation",
+    type: "number"
+  },//JT 4/mar/24
+  
+  CORX: {
+    title: "X Center of rotation",
+    description: "X Coordinate to rotate around using G68",
+    group: "Coordinate rotation",
+    type: "number"
+  },//JT 4/mar/24
+
+  CORY: {
+    title: "Y center of rotation",
+    description: "Y Coordinate to rotate using G68",
+    group: "Coordinate rotation",
+    type: "number"
+  },//JT 4/mar/24
+  
+  
+  useAAxis: {
+    title: "Output A Axis",
+    description: "Select 'No' for 3 axis machining only, without A00.",
+    group: "A-Axis",
+    type: "boolean"
+  },
+  
+  useInverseTime: {
+    title: "Use Inverse Time Feedrate",
+    description: "Use Inverse Time Feed On Multi Axis Moves. Select 'No' for FPM/DPM Feedrates.",
+    group: "A-Axis"
+    , type: "boolean"
+  },
+
+  useG53saferetract: {
+    title: "Use G53 for Retract and Home",
+    description: "Use G53 machine coordinates instead of G28 for retraction and homing.",
+    group: "Edit Final Home Coordinates",
+    type: "boolean"
+  },
+
+  g53homeX: {
+    title: "G53 X Home - Machine Coordinate",
+    description: "Machine Coordinate for G53 Home on X Axis.",
+    group: "Edit Final Home Coordinates",
+    type: "number"
+  },
+
+  g53homeY: {
+    title: "G53 Y Home - Machine Coordinate",
+    description: "Machine Coordinate for G53 Home on Y Axis.",
+    group: "Edit Final Home Coordinates",
+    type: "number"
+  },
+
   breakControlError: {title:"Max. Break Control Error", description:"Maximum Allowable Error for Break Control.", type:"number"},
-  ForceTCPosition: {title:"Change Position Before Toolchange", description:"Change the machine position before executing a toolchange.", group:4, type:"boolean"},
-  TCposX: {title:"Toolchange Position X Axis - Machine Coordinate", description:"Machine Coordinate for toolchange on X Axis.", group:4, type:"number"},
-  TCposY: {title:"Toolchange Position Y Axis - Machine Coordinate", description:"Machine Coordinate for toolchange on Y Axis.", group:4, type:"number"},
-  EnableZeroPointCompensation: {title:"Enable Zero Point Compensation", description:"Allows probing cycles to compensate for deltas bewteen a probed part and it's expected postition. The WCS after probing becomes the override origin translated by the computed deltas.", group:5, type:"boolean"},
+  
+  
+  ForceTCPosition: {
+    title: "Change Position Before Toolchange",
+    description: "Change the machine position before executing a toolchange.",
+    roup: "Force Toolchange Position",
+    type: "boolean"
+  },
+
+  TCposX: {
+    title: "Toolchange Position X Axis - Machine Coordinate",
+    description: "Machine Coordinate for toolchange on X Axis.",
+    group: "Force Toolchange Position",
+    type: "number"
+  },
+
+  TCposY: {
+    title: "Toolchange Position Y Axis - Machine Coordinate",
+    description: "Machine Coordinate for toolchange on Y Axis.",
+    group: "Force Toolchange Position",
+    type: "number"
+  },
+
+  EnableZeroPointCompensation: {
+    title: "Enable Zero Point Compensation",
+    description: "Allows probing cycles to compensate for deltas bewteen a probed part and it's expected postition. The WCS after probing becomes the override origin translated by the computed deltas.",
+    group: "Zero Point G10",
+    type: "boolean"
+  },
 };
 
 // wcs definiton
@@ -1202,12 +1331,12 @@ function onSection() {
     } else {
         // Write the block
         //console.log("Conditions met, currentTool is not 30. Writing the block...");
-        writeBlock(gFormat.format(68), xOutput.format(properties.CORX), yOutput.format(properties.CORY), ('R')+(properties.Ra))
+        writeBlock(gFormat.format(68), xOutput.format(properties.CORX), yOutput.format(properties.CORY), ('R')+("@880")) //Jt @101
     }
   } else if (properties.Coordinaterotation && wcsCall) {
     // Write the block
     //console.log("g68 and wcs conditions met. Writing the block...");
-    writeBlock(gFormat.format(68), xOutput.format(properties.CORX), yOutput.format(properties.CORY), ('R')+(properties.Ra))
+    writeBlock(gFormat.format(68), xOutput.format(properties.CORX), yOutput.format(properties.CORY), ('R')+("@880"))
   } else {
     // Conditions not met
     //console.log("Conditions not met. Not writing the block.");
@@ -1945,6 +2074,7 @@ function onCyclePoint(x, y, z) {
           "E" + xyzFormat.format(cycle.probeOvertravel),//Probe Overtravelk
           "Q0",
           WCS_CODE[2]
+          
         );
 
       //writeBlock(gFormat.format(65), '"CHECKPOSITIONALTOLERANCE"', WCS_CODE[8], WCS_CODE[9], WCS_CODE[3],'V4', EXPECTED_X, EXPECTED_Y, EXPECTED_Z);   //JT turning off 

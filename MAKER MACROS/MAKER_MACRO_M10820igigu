@@ -1,0 +1,181 @@
+// Manual macro for angle. Assumes you have probed two bores the first as G54P50, the second as G54P49
+
+// Run this macro from Maker Macro using M10820 Q"xxx"    Q is the angle that the two points have as designed in fusion. You have to work this out manually.
+// 0 degrees is the X axis in a positive direction. then move ANTICLOCKWISE the angle goes up to +360.
+// So stright up would be 90 degrees, straight down would be 270 degrees.
+
+
+//previously you have to have probed two points. These need to be G54P50 and G54P49
+// The data in these below is thaking that stored data and adding it to variable containers. 
+
+#100 = R_G53G59_COOR[0,59,1] //Set #100 as G54P50 X data, x1
+WAIT[0,0]
+#101 = R_G53G59_COOR[0,59,2] // Set #101 as G54P50 Y data, y1
+WAIT[0,0]
+#102 = R_G53G59_COOR[0,58,1] //Set #102 as G54P49 X data, x2
+WAIT[0,0]
+#103 = R_G53G59_COOR[0,58,2] //Set #03 as G54P49 Y data, y2
+WAIT[0,0]
+
+
+//Set G54 using G54P50 data. I'm also using the G54P50 data as my G54 so I move it across to that. This just saves probing again.
+// though it could be deleted and just re probe in the operation
+// Or it could be turned on and off by passing a variable through from the operation. But I need it like this so it will be up to you to decide.
+
+W_G53G59_COOR[0,54,1,#100] // pastes #800 into G54 X value
+WAIT[0,0]
+W_G53G59_COOR[0,54,2,#101] // pastes #801 into G54 Y value
+WAIT[0,0]
+
+
+// Calculate difference between two points. This effectively makes the first central point (0,0) and the next one (x,y)
+
+#104 = #102 - #100  // Calculate (x2 - x1)
+WAIT[0,0]
+#105 = #103 - #101  // Calculate (y2 - y1)
+WAIT[0,0]
+
+
+// set the #807 
+// This tells us what quadrant of a 360 degree circle the second point is in
+// we need this later as Tan doesnt work in 360 degrees only 90 degrees max from the X axis. Goolgle it to understand.
+
+
+#109=0
+WAIT[0,0]
+
+IF((#104>#109)&&(#105>#109))
+#107 = 0
+END_IF
+WAIT[0,0]
+
+IF((#104 < 0) && (#105>0))
+#107 = 1
+END_IF
+WAIT[0,0]
+
+IF((#104 < 0) && (#105 < 0))
+#107 = 2
+END_IF
+WAIT[0,0]
+
+IF((#104 > 0) && (#105 < 0))
+#107 = 3 
+END_IF
+WAIT[0,0]
+
+
+// 90, 180, 270 and 360 degrees. No Tan calcs needed (as they are a straight line not a right angle triangle) so skip the tan and use logic to calculate right angles. 
+//So if these are true we should skip past the Tan calcs 
+// A Tan calc would return zero on any of the 2 axis both positive and negative. So this is probably over complicating it but just checks it's not a straightline first
+
+//Should this be an if, else, else if???
+
+IF ((#104==0) && (#105>0)) GOTO 1
+
+IF ((#105==0) && (#104<0)) GOTO 2
+
+IF ((#104==0) && (#105<0)) GOTO 3
+
+IF ((#104>0) && (#105==0)) GOTO 4
+
+
+// if none of the if statements above are true use Tan to Calculate angle in degrees. Store that angle in #806
+#110 = #105/#104
+WAIT[0,0]
+
+#106 = ATAN[#105, #104]
+WAIT[0,0]
+
+
+//Tan calculates the angle compared to the X axis. So the angle is always max 90. top right quadrant of the circle 0-+90, top left0- -90, bottom left 0-+90' bottom right 0--90
+// this corrects the angle and using the data from the coordinates above makes it into 0-360 degrees. O being X +ve axis. 90 degrees vertical, 180 X -ve, 270 Y -ve, 360
+// #107 is set above
+// Final value stored in #808 
+//Jump to end of program
+
+
+//should this be an if, else else if?
+
+IF (#107 == 0)
+#108 = #106
+END_IF
+WAIT[0,0]
+
+IF (#107 == 1)
+#108 = (90+#106)+90
+END_IF
+WAIT[0,0]
+
+IF (#107 == 2)
+#108 = 180 + #106
+END_IF
+WAIT[0,0]
+
+IF (#107 == 3)
+#108 = (360+#106)
+END_IF
+WAIT[0,0]
+
+// jump past the calcs below if we've used Tan to calculate the angle.
+GOTO 5
+
+
+
+
+//return 90 degrees
+// Skip rest and end program with variable stored
+//Final value stored in #808
+N1
+#106 = 90
+WAIT[0,0]
+#108 = #106
+WAIT[0,0]
+GOTO 5
+
+//return 180 degrees
+// Skip rest and end program with variable stored
+N2
+#106 = 180
+WAIT[0,0]
+#108 = #106
+WAIT[0,0]
+GOTO 5
+
+//Return 270 degrees
+// Skip rest and end program with variable stored
+N3
+#106 = 270
+WAIT[0,0]
+#108 = #106
+WAIT[0,0]
+GOTO 5
+
+//Return 360 degrees
+// Skip rest and end program with variable stored
+N4
+#106 = 360
+WAIT[0,0]
+#108 = #106
+WAIT[0,0]
+GOTO 5
+
+N5
+
+
+//use the as designed angle to make an angle offset for G68
+//This #17 is the Q value manually inputted in the operation
+// this is stored in @809 as that is a global variable and can be called via fusion. 
+//So we can probe the two points,run this macro then start a program with G68 active and use coordinate offsetting :-) 
+
+@101 = #17 -#108
+WAIT[0,0]
+
+M99
+
+
+
+
+
+
+
